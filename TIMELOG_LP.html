@@ -3,220 +3,498 @@
 <head>
 <meta charset="UTF-8">
 <meta name="color-scheme" content="only light">
-<title>TIMELOGフライヤー</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIMELOG｜複数店舗の勤怠管理を、シンプルに。</title>
+<meta name="description" content="シフト管理・打刻・給与計算連携まで。複数店舗・複数現場を持つ飲食・派遣・警備業に特化した勤怠管理システム。月額¥3,500〜。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;color-scheme:only light;}
-html,body{color-scheme:only light;}
-body{font-family:'Inter','Noto Sans JP',sans-serif;background:#ccc;display:flex;justify-content:center;padding:24px;-webkit-font-smoothing:antialiased;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter','Noto Sans JP',sans-serif;color:#111;background:#fff;line-height:1.7;-webkit-font-smoothing:antialiased;}
 
-.flyer{width:210mm;height:297mm;background:#0d1a17;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.3);}
-
-.print-btn{position:fixed;top:12px;right:12px;background:#2bac97;color:#fff;border:none;padding:10px 20px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;z-index:999;}
-@media print{
-  .print-btn{display:none;}
-  body{background:none;padding:0;}
-  @page{size:A4 portrait;margin:0;}
-  .flyer{box-shadow:none;width:210mm;height:297mm;}
-}
-
-/* ── ヘッダー ── */
-.hdr{padding:32px 40px 0;flex-shrink:0;}
-.hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;}
-.logo{font-size:20px;font-weight:600;color:#fff;letter-spacing:.04em;}
+/* ── Nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.06);}
+.logo{font-size:18px;font-weight:600;letter-spacing:.04em;color:#111;}
 .logo span{color:#2bac97;}
-.logo-sub{font-size:8px;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase;margin-top:3px;}
+.nav-links{display:flex;align-items:center;gap:32px;}
+.nav-links a{font-size:13px;color:#666;text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:#111;}
+.nav-cta{font-size:13px;font-weight:500;color:#fff;background:#111;padding:10px 24px;border-radius:6px;text-decoration:none;transition:background .2s;}
+.nav-cta:hover{background:#2bac97;}
+@media(max-width:640px){.nav-links{display:none;}.logo{font-size:16px;}nav{padding:16px 20px;}}
 
-/* ── メインキャッチ ── */
-.catch{padding:0 40px 32px;flex-shrink:0;}
-.catch-label{font-size:9px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#2bac97;margin-bottom:14px;}
-.catch-h1{font-size:42px;font-weight:300;color:#fff;line-height:1.15;letter-spacing:-.02em;margin-bottom:16px;}
-.catch-h1 strong{font-weight:700;display:block;}
-.catch-h1 em{color:#2bac97;font-style:normal;}
-.catch-sub{font-size:12px;color:rgba(255,255,255,.5);line-height:1.8;max-width:380px;}
+/* ── Hero ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;background:#0d1a17;}
+.hero-eyebrow{font-size:12px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:#2bac97;margin-bottom:24px;}
+.hero h1{font-size:clamp(36px,6vw,72px);font-weight:300;line-height:1.15;letter-spacing:-.02em;color:#fff;margin-bottom:24px;}
+.hero h1 strong{font-weight:600;}
+.hero p{font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,.5);max-width:520px;margin:0 auto 48px;line-height:1.8;font-weight:300;}
+.hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn-dark{background:#2bac97;color:#fff;padding:16px 36px;border-radius:6px;font-size:15px;font-weight:500;text-decoration:none;transition:all .2s;}
+.btn-dark:hover{background:#24967f;}
+.btn-light{border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);padding:16px 36px;border-radius:6px;font-size:15px;font-weight:500;text-decoration:none;transition:all .2s;}
+.btn-light:hover{border-color:rgba(255,255,255,.5);color:#fff;}
+.hero-note{margin-top:20px;font-size:12px;color:rgba(255,255,255,.25);}
 
-/* ── 緑ライン ── */
-.accent-line{height:2px;background:linear-gradient(90deg,#2bac97,transparent);margin:0 40px;flex-shrink:0;}
+/* ── Divider ── */
+.line{height:1px;background:#f0f0f0;margin:0;}
 
-/* ── Before/After ── */
-.ba{display:grid;grid-template-columns:1fr auto 1fr;gap:0;margin:0;flex-shrink:0;padding:28px 40px;align-items:center;}
-.ba-box{padding:20px 24px;border-radius:8px;}
-.ba-before{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);}
-.ba-after{background:rgba(43,172,151,.12);border:1px solid rgba(43,172,151,.25);}
-.ba-label{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;}
-.ba-before .ba-label{color:rgba(255,255,255,.3);}
-.ba-after .ba-label{color:#2bac97;}
-.ba-list{list-style:none;}
-.ba-list li{font-size:10px;line-height:1.8;display:flex;gap:6px;}
-.ba-before .ba-list li{color:rgba(255,255,255,.45);}
-.ba-before .ba-list li::before{content:'×';color:rgba(255,255,255,.2);flex-shrink:0;}
-.ba-after .ba-list li{color:rgba(255,255,255,.85);}
-.ba-after .ba-list li::before{content:'✓';color:#2bac97;flex-shrink:0;font-weight:700;}
-.ba-arrow{font-size:20px;color:#2bac97;text-align:center;padding:0 12px;font-weight:300;}
+/* ── Section ── */
+section{padding:100px 24px;}
+.container{max-width:960px;margin:0 auto;}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:#2bac97;margin-bottom:16px;}
+.section-h{font-size:clamp(26px,4vw,42px);font-weight:300;letter-spacing:-.02em;line-height:1.25;margin-bottom:20px;}
+.section-h strong{font-weight:600;}
+.section-p{font-size:16px;color:#444;line-height:1.85;max-width:560px;font-weight:400;}
 
-/* ── 機能グリッド ── */
-.feats{padding:0 40px 24px;flex-shrink:0;}
-.feats-label{font-size:8px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#2bac97;margin-bottom:14px;}
-.feats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);border-radius:8px;overflow:hidden;}
-.feat{padding:14px 16px;background:#0d1a17;}
-.feat-icon{font-size:16px;margin-bottom:5px;}
-.feat-ttl{font-size:10px;font-weight:600;color:#fff;margin-bottom:3px;}
-.feat-desc{font-size:9px;color:rgba(255,255,255,.4);line-height:1.5;}
+/* ── Problem ── */
+.problem{background:#111;}
+.problem .eyebrow{color:#2bac97;}
+.problem .section-h{color:#fff;}
+.problem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:#222;margin-top:60px;border:1px solid #222;}
+.problem-item{background:#111;padding:36px 32px;}
+.problem-item .num{font-size:11px;font-weight:500;color:#333;letter-spacing:.1em;margin-bottom:16px;}
+.problem-item h3{font-size:16px;font-weight:500;color:#fff;margin-bottom:10px;line-height:1.4;}
+.problem-item p{font-size:13px;color:#666;line-height:1.75;}
 
-/* ── 料金 ── */
-.price{margin:0 40px 24px;flex-shrink:0;background:rgba(43,172,151,.1);border:1px solid rgba(43,172,151,.2);border-radius:10px;padding:20px 24px;display:grid;grid-template-columns:1fr 1px 1fr;gap:0;align-items:center;}
-.price-divider{background:rgba(43,172,151,.2);align-self:stretch;}
-.price-box{padding:0 20px;text-align:center;}
-.price-box:first-child{padding-left:0;}
-.price-box:last-child{padding-right:0;}
-.p-label{font-size:8px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px;}
-.p-num{font-size:30px;font-weight:300;color:#fff;line-height:1;letter-spacing:-.01em;}
-.p-num span{font-size:11px;color:rgba(255,255,255,.35);}
-.p-note{font-size:8px;color:rgba(255,255,255,.35);margin-top:4px;}
-.price-inc{margin-top:14px;padding-top:12px;border-top:1px solid rgba(43,172,151,.2);display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;grid-column:1/-1;}
-.price-inc p{font-size:9px;color:rgba(255,255,255,.5);}
-.price-inc p::before{content:'— ';color:#2bac97;}
+/* ── Features ── */
+.features{background:#f4f4f1;}
+.feature-list{margin-top:60px;display:flex;flex-direction:column;gap:1px;background:#d8d8d4;border:1px solid #d8d8d4;}
+.feature-row{background:#f4f4f1;display:grid;grid-template-columns:1fr 2fr;gap:0;padding:48px 40px;align-items:start;}
+.feature-row:hover{background:#eeeee9;}
+.feature-label{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#2bac97;padding-top:4px;}
+.feature-body h3{font-size:20px;font-weight:500;color:#111;margin-bottom:10px;}
+.feature-body p{font-size:14px;color:#444;line-height:1.8;max-width:480px;}
+.feature-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+.ftag{font-size:11px;color:#333;background:#ddddd8;padding:4px 12px;border-radius:4px;font-weight:500;}
+@media(max-width:640px){.feature-row{grid-template-columns:1fr;gap:12px;padding:28px 24px;}}
 
-/* ── フッター ── */
-.ftr{margin-top:auto;background:#2bac97;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.ftr-logo{font-size:18px;font-weight:600;color:#fff;letter-spacing:.04em;}
-.ftr-center{text-align:center;}
-.ftr-center .label{font-size:8px;color:rgba(255,255,255,.65);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;}
-.ftr-center .mail{font-size:13px;font-weight:600;color:#fff;}
-.ftr-center .by{font-size:8px;color:rgba(255,255,255,.5);margin-top:2px;}
+/* ── Compare ── */
+.compare{background:#0d1a17;}
+.compare .eyebrow{color:#2bac97;}
+.compare .section-h{color:#fff;}
+.compare .section-p{color:rgba(255,255,255,.45);}
+.compare .compare-note{color:rgba(255,255,255,.2);}
+.compare-table th{color:rgba(255,255,255,.3);border-bottom-color:#222;}
+.compare-table td{color:rgba(255,255,255,.5);border-bottom-color:#1a1a1a;}
+.compare-table tr.hl td{background:rgba(43,172,151,.08);color:#fff;}
+.compare-table tr.hl td:first-child{color:#2bac97;}
+.compare-table{width:100%;border-collapse:collapse;margin-top:48px;font-size:14px;}
+.compare-table th{padding:14px 20px;text-align:left;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#aaa;border-bottom:2px solid #f0f0f0;}
+.compare-table td{padding:18px 20px;border-bottom:1px solid #f5f5f5;color:#444;}
+.compare-table tr.hl td{background:#f8fffd;font-weight:500;color:#111;}
+.compare-table tr.hl td:first-child{color:#2bac97;font-weight:600;}
+.check{color:#2bac97;font-weight:600;}
+.cross{color:#ddd;}
+.compare-note{font-size:12px;color:#bbb;margin-top:16px;text-align:right;}
+
+/* ── Pricing ── */
+.pricing{background:#f7f7f5;}
+.price-wrap{margin-top:60px;display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.price-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:40px;transition:border-color .2s;}
+.price-card:hover{border-color:#2bac97;}
+.price-card.main{border-color:#111;}
+.price-name{font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#666;margin-bottom:20px;}
+.price-num{font-size:44px;font-weight:300;letter-spacing:-.02em;color:#111;line-height:1;}
+.price-num sub{font-size:16px;font-weight:400;color:#555;vertical-align:baseline;}
+.price-init{font-size:13px;color:#555;margin-top:8px;}
+.price-div{height:1px;background:#e0e0e0;margin:28px 0;}
+.price-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.price-list li{font-size:13px;color:#333;display:flex;align-items:flex-start;gap:8px;}
+.price-list li::before{content:'—';color:#2bac97;flex-shrink:0;font-weight:500;}
+.price-action{display:block;text-align:center;margin-top:32px;padding:14px;border-radius:6px;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s;}
+.price-action.dark{background:#111;color:#fff;}
+.price-action.dark:hover{background:#2bac97;}
+.price-action.outline{border:1.5px solid #ddd;color:#444;}
+.price-action.outline:hover{border-color:#111;color:#111;}
+@media(max-width:640px){.price-wrap{grid-template-columns:1fr;}}
+.price-note{font-size:12px;color:#bbb;margin-top:20px;text-align:center;}
+
+/* ── FAQ ── */
+.faq{background:#fff;}
+.faq-list{margin-top:48px;max-width:680px;}
+.faq-item{border-bottom:1px solid #f0f0f0;padding:24px 0;cursor:pointer;}
+.faq-item:first-child{border-top:1px solid #f0f0f0;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;gap:16px;}
+.faq-q span{font-size:15px;font-weight:500;color:#111;}
+.faq-q::after{content:'+';font-size:20px;color:#ccc;flex-shrink:0;transition:transform .2s;}
+.faq-item.open .faq-q::after{transform:rotate(45deg);color:#2bac97;}
+.faq-a{display:none;font-size:14px;color:#444;line-height:1.85;margin-top:14px;padding-right:32px;}
+.faq-item.open .faq-a{display:block;}
+
+/* ── Contact ── */
+.contact{background:#111;padding:100px 24px;}
+.contact .eyebrow{color:#2bac97;}
+.contact .section-h{color:#fff;}
+.contact .section-p{color:rgba(255,255,255,.45);}
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:60px;}
+.contact-info p{font-size:14px;color:rgba(255,255,255,.45);line-height:1.85;margin-bottom:32px;}
+.contact-detail{display:flex;flex-direction:column;gap:16px;}
+.contact-detail-item .label{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#2bac97;margin-bottom:4px;}
+.contact-detail-item .val{font-size:15px;color:rgba(255,255,255,.75);}
+.form-group{margin-bottom:16px;}
+.form-label{display:block;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px;}
+.form-input{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:13px 16px;color:#fff;font-size:14px;outline:none;transition:border-color .2s;font-family:inherit;}
+.form-input:focus{border-color:#2bac97;}
+.form-input::placeholder{color:rgba(255,255,255,.2);}
+select.form-input option{background:#111;color:#fff;}
+.form-submit{width:100%;background:#2bac97;color:#fff;font-size:14px;font-weight:500;padding:15px;border-radius:6px;border:none;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:8px;}
+.form-submit:hover{background:#24967f;}
+.form-note{font-size:11px;color:rgba(255,255,255,.25);margin-top:12px;text-align:center;}
+@media(max-width:640px){.contact-wrap{grid-template-columns:1fr;gap:40px;}}
+
+/* ── Footer ── */
+footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-size:16px;font-weight:600;color:#fff;letter-spacing:.04em;}
+.footer-logo span{color:#2bac97;}
+.footer-links{display:flex;gap:24px;}
+.footer-links a{font-size:12px;color:rgba(255,255,255,.3);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:rgba(255,255,255,.7);}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.2);}
 </style>
 </head>
 <body>
-<button class="print-btn" onclick="window.print()">🖨 印刷</button>
 
-<div class="flyer">
-
-  <!-- ヘッダー -->
-  <div class="hdr">
-    <div class="hdr-top">
-      <div>
-        <div class="logo">TIME<span>LOG</span></div>
-        <div class="logo-sub">勤怠管理システム</div>
-      </div>
-      <div id="qrcode" style="width:52px;height:52px;background:#fff;padding:3px;border-radius:4px;flex-shrink:0;"></div>
-    </div>
+<nav>
+  <div class="logo">TIME<span>LOG</span></div>
+  <div class="nav-links">
+    <a href="#features">機能</a>
+    <a href="#pricing">料金</a>
+    <a href="#faq">よくある質問</a>
   </div>
+  <a href="#contact" class="nav-cta" onclick="selectPlan('まず話を聞きたい')">お問い合わせ</a>
+</nav>
 
-  <!-- メインキャッチ -->
-  <div class="catch">
-    <div class="catch-label">複数店舗・複数現場を持つ飲食・派遣・警備業へ</div>
-    <div class="catch-h1">
-      シフトも給与計算も、<br>
-      <strong>もっと<em>シンプル</em>に。</strong>
-    </div>
-    <div class="catch-sub">店舗が増えるほど複雑になる勤怠管理を、一つのシステムで整理します。スタッフはスマホで打刻するだけ。管理者は月末の作業が激減します。</div>
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-eyebrow">複数店舗・複数現場の勤怠管理</div>
+  <h1>シフトも給与計算も、<br><strong>もっとシンプルに。</strong></h1>
+  <p>店舗が増えるほど複雑になる勤怠管理を、一つのシステムで整理する。スタッフはスマホで打刻、管理者は画面一つで完結。</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-dark" onclick="selectPlan('まず話を聞きたい')">無料相談を予約する</a>
+    <a href="#features" class="btn-light">機能を見る</a>
   </div>
+  <p class="hero-note">返信1営業日以内 ・ 導入まで2〜3週間</p>
+</section>
 
-  <div class="accent-line"></div>
+<div class="line"></div>
 
-  <!-- Before / After -->
-  <div class="ba">
-    <div class="ba-box ba-before">
-      <div class="ba-label">Today</div>
-      <ul class="ba-list">
-        <li>Excelで毎月シフトを作り直す</li>
-        <li>打刻漏れのフォローに追われる</li>
-        <li>残業・深夜の計算を手動で行う</li>
-        <li>給与ソフトへ手作業で転記する</li>
-      </ul>
-    </div>
-    <div class="ba-arrow">→</div>
-    <div class="ba-box ba-after">
-      <div class="ba-label">With TIMELOG</div>
-      <ul class="ba-list">
-        <li>希望収集〜確定〜通知まで自動</li>
-        <li>申請・承認フローで即対応</li>
-        <li>割増賃金をシステムが自動計算</li>
-        <li>ワンクリックでCSV出力・連携</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 機能グリッド -->
-  <div class="feats">
-    <div class="feats-label">Features</div>
-    <div class="feats-grid">
-      <div class="feat">
-        <div class="feat-icon">📅</div>
-        <div class="feat-ttl">シフト管理</div>
-        <div class="feat-desc">希望収集・確定・通知・シフト表印刷</div>
+<!-- Problem -->
+<section class="problem">
+  <div class="container">
+    <div class="eyebrow">Problem</div>
+    <h2 class="section-h">店舗が増えるほど、<br><strong>管理の負担も増えていきます。</strong></h2>
+    <div class="problem-grid">
+      <div class="problem-item">
+        <div class="num">01</div>
+        <h3>Excelのシフト表を毎月作り直している</h3>
+        <p>希望の収集から割り当て・調整まで、この作業だけで毎月多くの時間が費やされています。</p>
       </div>
-      <div class="feat">
-        <div class="feat-icon">⏱️</div>
-        <div class="feat-ttl">スマホ打刻</div>
-        <div class="feat-desc">出退勤・打ち忘れ申請・承認フロー</div>
+      <div class="problem-item">
+        <div class="num">02</div>
+        <h3>どの店舗に誰が入ったか把握できない</h3>
+        <p>月末になって初めて気づく。本部からリアルタイムで見える仕組みがない。</p>
       </div>
-      <div class="feat">
-        <div class="feat-icon">🌙</div>
-        <div class="feat-ttl">労務計算</div>
-        <div class="feat-desc">残業・深夜・休日出勤を自動仕分け</div>
+      <div class="problem-item">
+        <div class="num">03</div>
+        <h3>深夜・残業の計算に不安がある</h3>
+        <p>割増賃金の計算を手動で行うと、ミスが発生した際にスタッフとの信頼関係にも影響します。</p>
       </div>
-      <div class="feat">
-        <div class="feat-icon">💴</div>
-        <div class="feat-ttl">給与連携</div>
-        <div class="feat-desc">freee・MF・SmartHR形式でCSV出力</div>
-      </div>
-      <div class="feat">
-        <div class="feat-icon">🏢</div>
-        <div class="feat-ttl">複数店舗管理</div>
-        <div class="feat-desc">店舗・エリア別にスタッフを管理</div>
-      </div>
-      <div class="feat">
-        <div class="feat-icon">📊</div>
-        <div class="feat-ttl">月次レポート</div>
-        <div class="feat-desc">集計・PDF出力・有給管理</div>
+      <div class="problem-item">
+        <div class="num">04</div>
+        <h3>給与ソフトへの転記に時間がかかる</h3>
+        <p>勤怠データを手作業で入力する作業は、ミスのリスクも高く、毎月の大きな負担になっています。</p>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- 料金 -->
-  <div class="price" style="display:grid;grid-template-columns:1fr 1px 1fr 1fr;gap:0;align-items:center;">
-    <div class="price-box" style="padding:0 20px 0 0;text-align:left;">
-      <div class="p-label">導入サポート費（初回のみ）</div>
-      <div class="p-num">¥30,000<span>（税別）</span></div>
-      <div class="p-note">店舗設定・スタッフ登録・操作レクチャー込み</div>
-    </div>
-    <div style="background:rgba(43,172,151,.2);align-self:stretch;"></div>
-    <div class="price-box" style="text-align:center;">
-      <div class="p-label">月額利用料</div>
-      <div class="p-num">¥3,500<span>/月</span></div>
-      <div class="p-note">年間契約・税別</div>
-    </div>
-    <div style="padding:0 0 0 16px;text-align:left;">
-      <p style="font-size:9px;color:rgba(255,255,255,.5);line-height:1.8;">— 全機能利用可能<br>— スタッフ数に関係なく一律<br>— メール・電話サポート<br>— 機能アップデート無償</p>
+<div class="line"></div>
+
+<!-- Features -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="eyebrow">Features</div>
+    <h2 class="section-h">必要なものだけ、<br><strong>過不足なく。</strong></h2>
+    <div class="feature-list">
+      <div class="feature-row">
+        <div class="feature-label">シフト管理</div>
+        <div class="feature-body">
+          <h3>希望収集から確定・通知まで自動</h3>
+          <p>スタッフがスマホで希望を提出。管理者がワンクリックで確定すると全員に自動通知。ダブルブッキングも自動で検知します。確定シフトはグリッド形式で印刷可能。</p>
+          <div class="feature-tags">
+            <span class="ftag">希望収集</span>
+            <span class="ftag">自動通知</span>
+            <span class="ftag">ダブルブッキング防止</span>
+            <span class="ftag">シフト表印刷</span>
+          </div>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-label">打刻管理</div>
+        <div class="feature-body">
+          <h3>スマホで出退勤。打ち忘れも申請で解決</h3>
+          <p>スタッフはスマホブラウザから出退勤を記録。打ち忘れた場合は申請→管理者承認で修正できます。現場・休憩時間も同時に記録。</p>
+          <div class="feature-tags">
+            <span class="ftag">スマホ打刻</span>
+            <span class="ftag">打刻申請・承認</span>
+            <span class="ftag">現場選択</span>
+          </div>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-label">労務計算</div>
+        <div class="feature-body">
+          <h3>残業・深夜・休日出勤を自動で仕分け</h3>
+          <p>法定内残業・法定外残業・深夜割増・法定休日・法定外休日を自動計算。丸め単位や所定労働時間は会社ごとに設定できます。</p>
+          <div class="feature-tags">
+            <span class="ftag">残業自動計算</span>
+            <span class="ftag">深夜割増</span>
+            <span class="ftag">休日出勤</span>
+            <span class="ftag">丸め設定</span>
+          </div>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-label">給与連携</div>
+        <div class="feature-body">
+          <h3>freee・マネーフォワード・SmartHRに直接流し込む</h3>
+          <p>各社フォーマットに対応したCSVを出力。給与ソフトへの手入力は不要になります。月末の転記作業がゼロになります。</p>
+          <div class="feature-tags">
+            <span class="ftag">freee人事労務</span>
+            <span class="ftag">マネーフォワード</span>
+            <span class="ftag">SmartHR</span>
+            <span class="ftag">CSV出力</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+</section>
 
-  <!-- フッター -->
-  <div class="ftr">
-    <div>
-      <div class="ftr-logo">TIMELOG</div>
+<div class="line"></div>
+
+<!-- Pricing -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="eyebrow">Pricing</div>
+    <h2 class="section-h">シンプルな<br><strong>料金体系。</strong></h2>
+    <p class="section-p">プランは一つのみ。初期費用と月額だけです。スタッフ数・店舗数が増えても料金は変わりません。</p>
+
+    <div style="margin-top:48px;background:#fff;border:1px solid #e8e8e8;border-radius:16px;overflow:hidden;max-width:640px;">
+      <!-- 料金表示 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #f0f0f0;">
+        <div style="padding:36px 32px;border-right:1px solid #f0f0f0;">
+          <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:14px;">導入サポート費</div>
+          <div style="font-size:38px;font-weight:300;letter-spacing:-.02em;color:#111;line-height:1;">¥30,000</div>
+          <div style="font-size:13px;color:#555;margin-top:6px;">初回のみ・税別</div>
+        </div>
+        <div style="padding:36px 32px;">
+          <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:14px;">月額利用料</div>
+          <div style="font-size:38px;font-weight:300;letter-spacing:-.02em;color:#111;line-height:1;">¥3,500</div>
+          <div style="font-size:13px;color:#555;margin-top:6px;">年間契約（¥42,000）・税別</div>
+        </div>
+      </div>
+      <!-- 含まれるもの -->
+      <div style="padding:28px 32px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:16px;">含まれるもの</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;">
+          <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>店舗設定・スタッフ登録</div>
+          <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>全機能利用可能</div>
+          <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>操作レクチャー付き</div>
+          <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>メール・電話サポート</div>
+          <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>導入後1ヶ月フォロー</div>
+          <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>機能アップデート無償</div>
+        </div>
+        <a href="#contact" onclick="selectPlan('スタンダード（¥30,000 + 月¥3,500）')" style="display:block;text-align:center;margin-top:28px;padding:14px;border-radius:6px;font-size:14px;font-weight:500;text-decoration:none;background:#111;color:#fff;transition:background .2s;" onmouseover="this.style.background='#2bac97'" onmouseout="this.style.background='#111'">相談する</a>
+      </div>
     </div>
-    <div class="ftr-center">
-      <div class="label">お問い合わせ・詳細はこちら</div>
-      <div class="mail">clean.nakajima@gmail.com</div>
-      <div class="by">運営：中島 温大　／　平日 10:00〜18:00</div>
-    </div>
-    <div style="text-align:right;font-size:8px;color:rgba(255,255,255,.6);">QRコードから<br>詳細を確認</div>
+    <p class="price-note" style="margin-top:16px;max-width:640px;">特殊な要件・大規模店舗はご相談ください</p>
   </div>
+</section>
 
-</div>
+<div class="line"></div>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="eyebrow">FAQ</div>
+    <h2 class="section-h">よくある<br><strong>質問。</strong></h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q"><span>Googleアカウントがないと使えませんか？</span></div>
+        <div class="faq-a">管理者側はGoogleアカウントが必要です。スタッフ側はスマホブラウザから使えるため、Googleアカウントは不要です。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>ITが得意でないスタッフでも使えますか？</span></div>
+        <div class="faq-a">スタッフの操作はスマホで出勤・退勤を押すだけです。導入時に操作説明と印刷用マニュアルをご提供します。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>導入までどれくらいかかりますか？</span></div>
+        <div class="faq-a">お打ち合わせから設定・テスト運用まで、通常2〜3週間程度です。月初からのスタートを希望される場合は前月中旬までのご連絡をお勧めします。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>解約はいつでもできますか？</span></div>
+        <div class="faq-a">月単位の契約です。解約は翌月15日までにメールでご連絡ください。解約後もデータはGoogleスプレッドシートに残ります。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>スタッフが増えたら料金は上がりますか？</span></div>
+        <div class="faq-a">上がりません。スタッフ数・店舗数に関係なく月額¥3,500一律です。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="eyebrow">Contact</div>
+    <h2 class="section-h">お気軽に<br><strong>ご相談ください。</strong></h2>
+    <p class="section-p">「自社の業態に合うか分からない」といったご不明点でも、まずはお気軽にお問い合わせください。状況をお伺いしたうえで、最適な方法をご提案いたします。</p>
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <p>お問い合わせいただいた内容は1営業日以内にご返信いたします。お気軽にご連絡ください。</p>
+        <div class="contact-detail">
+          <div class="contact-detail-item">
+            <div class="label">電話</div>
+            
+          </div>
+          <div class="contact-detail-item">
+            <div class="label">メール</div>
+            <div class="val">clean.nakajima@gmail.com</div>
+          </div>
+          <div class="contact-detail-item">
+            <div class="label">受付時間</div>
+            <div class="val">平日 10:00 — 18:00</div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div class="form-group">
+          <label class="form-label">会社名 *</label>
+          <input id="f_company" class="form-input" type="text" placeholder="株式会社〇〇">
+        </div>
+        <div class="form-group">
+          <label class="form-label">お名前 *</label>
+          <input id="f_name" class="form-input" type="text" placeholder="山田 太郎">
+        </div>
+        <div class="form-group">
+          <label class="form-label">メールアドレス *</label>
+          <input id="f_email" class="form-input" type="email" placeholder="info@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">電話番号</label>
+          <input id="f_tel" class="form-input" type="tel" placeholder="090-0000-0000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">ご興味のあるプラン</label>
+          <select id="f_plan" class="form-input">
+            <option value="">選択してください</option>
+            <option value="スタンダード（¥30,000 + 月¥3,500）">スタンダード（¥30,000 + 月¥3,500）</option>
+            <option value="まず話を聞きたい">まず話を聞きたい</option>
+            <option value="カスタマイズ・特殊要件">カスタマイズ・特殊要件</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">業種</label>
+          <select id="f_industry" class="form-input">
+            <option value="">選択してください</option>
+            <option>飲食・サービス（複数店舗）</option>
+            <option>人材派遣</option>
+            <option>警備</option>
+            <option>清掃・ビルメンテナンス</option>
+            <option>その他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">店舗・現場数</label>
+          <select id="f_staffNum" class="form-input">
+            <option value="">選択してください</option>
+            <option>2〜3店舗</option>
+            <option>4〜7店舗</option>
+            <option>8〜15店舗</option>
+            <option>16店舗以上</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">お困りのこと</label>
+          <textarea id="f_message" class="form-input" rows="3" placeholder="現在の課題や気になっていることをご記入ください"></textarea>
+        </div>
+        <p id="f_error" style="color:#ff6b6b;font-size:13px;margin-bottom:10px;display:none;"></p>
+        <button id="f_submit" class="form-submit" onclick="submitForm()">送信する</button>
+        <p class="form-note">1営業日以内にご返信いたします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">TIME<span>LOG</span></div>
+  <div class="footer-links">
+    <a href="TIMELOG_利用規約・プライバシーポリシー.html">利用規約</a>
+    <a href="TIMELOG_利用規約・プライバシーポリシー.html">プライバシーポリシー</a>
+  </div>
+  <div style="font-size:12px;color:rgba(255,255,255,.3);">運営：中島 温大　clean.nakajima@gmail.com</div>
+  <div class="footer-copy">© 2026 TIMELOG</div>
+</footer>
 
 <script>
-window.addEventListener('load', function() {
-  new QRCode(document.getElementById('qrcode'), {
-    text: 'https://clean-time.github.io/time/TIMELOG_LP.html',
-    width: 52,
-    height: 52,
-    colorDark: '#000000',
-    colorLight: '#ffffff'
+var GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycby4KwHfw1QXKrfDILQEzxZ0EJEx-E2r6hfgMFp8Dq16AHIj_EjeN1fm11MYOqf4Mo5WBQ/exec';
+
+function selectPlan(planName) {
+  setTimeout(function() {
+    var sel = document.getElementById('f_plan');
+    if (sel) sel.value = planName;
+    var el = document.getElementById('f_company');
+    if (el) el.focus();
+  }, 400);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.faq-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(el){ el.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
+    });
   });
+});
+
+function submitForm() {
+  var company  = document.getElementById('f_company').value.trim();
+  var name     = document.getElementById('f_name').value.trim();
+  var email    = document.getElementById('f_email').value.trim();
+  var tel      = document.getElementById('f_tel').value.trim();
+  var plan     = document.getElementById('f_plan').value;
+  var industry = document.getElementById('f_industry').value;
+  var staffNum = document.getElementById('f_staffNum').value;
+  var message  = document.getElementById('f_message').value.trim();
+  var errEl    = document.getElementById('f_error');
+  var btn      = document.getElementById('f_submit');
+  errEl.style.display = 'none';
+  if (!company) return _err('会社名を入力してください。');
+  if (!name)    return _err('お名前を入力してください。');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return _err('正しいメールアドレスを入力してください。');
+  btn.disabled = true;
+  btn.textContent = '送信中...';
+  var params = new URLSearchParams({ company, name, email, tel, plan, industry, staffNum, message });
+  fetch(GAS_ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body: params.toString() })
+  .then(function(){ _success(); })
+  .catch(function(){ btn.disabled=false; btn.textContent='送信する'; _err('送信に失敗しました。お電話でご連絡ください。'); });
+}
+function _err(msg){ var e=document.getElementById('f_error'); e.textContent=msg; e.style.display='block'; }
+function _success(){
+  document.querySelector('.contact-form').innerHTML =
+    '<div style="padding:60px 0;text-align:center;">'
+    +'<div style="font-size:40px;margin-bottom:20px;">✓</div>'
+    +'<p style="font-size:18px;font-weight:500;color:#fff;margin-bottom:10px;">送信しました。</p>'
+    +'<p style="font-size:14px;color:rgba(255,255,255,.4);line-height:1.8;">確認メールをお送りしました。<br>1営業日以内にご連絡いたします。</p>'
+    +'</div>';
+}
+window.addEventListener('scroll', function(){
+  var nav = document.querySelector('nav');
+  nav.style.borderBottomColor = window.scrollY > 20 ? 'rgba(0,0,0,0.08)' : 'rgba(0,0,0,0.06)';
 });
 </script>
 </body>
