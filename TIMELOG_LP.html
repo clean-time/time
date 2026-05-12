@@ -5,7 +5,7 @@
 <meta name="color-scheme" content="only light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TIMELOG｜複数店舗の勤怠管理を、シンプルに。</title>
-<meta name="description" content="シフト管理・打刻・給与計算連携まで。複数店舗・複数現場を持つ飲食・派遣・警備業に特化した勤怠管理システム。月額¥3,500〜。">
+<meta name="description" content="シフト管理・打刻・給与ソフトデータ連携まで。複数店舗・複数現場を持つ飲食・派遣・警備業に特化した勤怠管理システム。月額¥3,500〜。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -24,18 +24,35 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:fl
 .nav-cta:hover{background:#2bac97;}
 @media(max-width:640px){.nav-links{display:none;}.logo{font-size:16px;}nav{padding:16px 20px;}}
 
+/* ── アニメーション ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes logoReveal{0%{opacity:0;transform:scale(.88) translateY(16px);letter-spacing:.2em;}100%{opacity:1;transform:scale(1) translateY(0);letter-spacing:.04em;}}
+.anim-logo{animation:logoReveal .9s cubic-bezier(.22,1,.36,1) forwards;}
+.anim-1{opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) .4s forwards;}
+.anim-2{opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) .65s forwards;}
+.anim-3{opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) .85s forwards;}
+.anim-4{opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) 1.05s forwards;}
+.anim-5{opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) 1.2s forwards;}
+/* スクロールアニメーション */
+.scroll-hidden{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);}
+.scroll-visible{opacity:1;transform:translateY(0);}
+
 /* ── Hero ── */
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;background:#0d1a17;}
-.hero-eyebrow{font-size:12px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:#2bac97;margin-bottom:24px;}
-.hero h1{font-size:clamp(36px,6vw,72px);font-weight:300;line-height:1.15;letter-spacing:-.02em;color:#fff;margin-bottom:24px;}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;background:linear-gradient(160deg,#0f2d27 0%,#1a4a3d 50%,#0f2d27 100%);}
+.hero-brand{font-size:clamp(48px,8vw,96px);font-weight:600;letter-spacing:.04em;color:#fff;margin-bottom:20px;line-height:1;}
+.hero-brand span{color:#2bac97;}
+.hero-eyebrow{font-size:12px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:#2bac97;margin-bottom:20px;}
+.hero h1{font-size:clamp(28px,4vw,52px);font-weight:300;line-height:1.25;letter-spacing:-.02em;color:rgba(255,255,255,.9);margin-bottom:20px;}
 .hero h1 strong{font-weight:600;}
-.hero p{font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,.5);max-width:520px;margin:0 auto 48px;line-height:1.8;font-weight:300;}
+.hero p{font-size:clamp(14px,2vw,17px);color:rgba(255,255,255,.55);max-width:480px;margin:0 auto 44px;line-height:1.85;font-weight:300;}
 .hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
-.btn-dark{background:#2bac97;color:#fff;padding:16px 36px;border-radius:6px;font-size:15px;font-weight:500;text-decoration:none;transition:all .2s;}
-.btn-dark:hover{background:#24967f;}
-.btn-light{border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);padding:16px 36px;border-radius:6px;font-size:15px;font-weight:500;text-decoration:none;transition:all .2s;}
+.btn-dark{background:#2bac97;color:#fff;padding:16px 36px;border-radius:6px;font-size:15px;font-weight:500;text-decoration:none;transition:all .25s;box-shadow:0 4px 20px rgba(43,172,151,.35);}
+.btn-dark:hover{background:#24967f;transform:translateY(-2px);box-shadow:0 8px 28px rgba(43,172,151,.45);}
+.btn-light{border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);padding:16px 36px;border-radius:6px;font-size:15px;font-weight:500;text-decoration:none;transition:all .25s;}
 .btn-light:hover{border-color:rgba(255,255,255,.5);color:#fff;}
 .hero-note{margin-top:20px;font-size:12px;color:rgba(255,255,255,.25);}
+.hero-line{width:48px;height:2px;background:#2bac97;margin:0 auto 28px;}
 
 /* ── Divider ── */
 .line{height:1px;background:#f0f0f0;margin:0;}
@@ -59,10 +76,10 @@ section{padding:100px 24px;}
 .problem-item p{font-size:13px;color:#666;line-height:1.75;}
 
 /* ── Features ── */
-.features{background:#f4f4f1;}
-.feature-list{margin-top:60px;display:flex;flex-direction:column;gap:1px;background:#d8d8d4;border:1px solid #d8d8d4;}
-.feature-row{background:#f4f4f1;display:grid;grid-template-columns:1fr 2fr;gap:0;padding:48px 40px;align-items:start;}
-.feature-row:hover{background:#eeeee9;}
+.features{background:#eaeae6;}
+.feature-list{margin-top:60px;display:flex;flex-direction:column;gap:1px;background:#b8b8b2;border:1px solid #b8b8b2;}
+.feature-row{background:#fff;display:grid;grid-template-columns:1fr 2fr;gap:0;padding:48px 40px;align-items:start;}
+.feature-row:hover{background:#f7f7f4;}
 .feature-label{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#2bac97;padding-top:4px;}
 .feature-body h3{font-size:20px;font-weight:500;color:#111;margin-bottom:10px;}
 .feature-body p{font-size:14px;color:#444;line-height:1.8;max-width:480px;}
@@ -90,7 +107,7 @@ section{padding:100px 24px;}
 .compare-note{font-size:12px;color:#bbb;margin-top:16px;text-align:right;}
 
 /* ── Pricing ── */
-.pricing{background:#f7f7f5;}
+.pricing{background:#eaeae6;}
 .price-wrap{margin-top:60px;display:grid;grid-template-columns:1fr 1fr;gap:24px;}
 .price-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:40px;transition:border-color .2s;}
 .price-card:hover{border-color:#2bac97;}
@@ -168,14 +185,16 @@ footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;just
 
 <!-- Hero -->
 <section class="hero">
-  <div class="hero-eyebrow">複数店舗・複数現場の勤怠管理</div>
-  <h1>シフトも給与計算も、<br><strong>もっとシンプルに。</strong></h1>
-  <p>店舗が増えるほど複雑になる勤怠管理を、一つのシステムで整理する。スタッフはスマホで打刻、管理者は画面一つで完結。</p>
-  <div class="hero-actions">
+  <div class="hero-brand anim-logo">TIME<span>LOG</span></div>
+  <div class="hero-line anim-1"></div>
+  <div class="hero-eyebrow anim-1">複数店舗・複数現場の勤怠管理</div>
+  <h1 class="anim-2">シフトも給与ソフト連携も、<br><strong>もっとシンプルに。</strong></h1>
+  <p class="anim-3">店舗が増えるほど複雑になる勤怠管理を、一つのシステムで整理する。スタッフはスマホで打刻、管理者は画面一つで完結。</p>
+  <div class="hero-actions anim-4">
     <a href="#contact" class="btn-dark" onclick="selectPlan('まず話を聞きたい')">無料相談を予約する</a>
     <a href="#features" class="btn-light">機能を見る</a>
   </div>
-  <p class="hero-note">返信1営業日以内 ・ 導入まで2〜3週間</p>
+  <p class="hero-note anim-5">返信1営業日以内 ・ 導入まで2〜3週間</p>
 </section>
 
 <div class="line"></div>
@@ -257,7 +276,7 @@ footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;just
         </div>
       </div>
       <div class="feature-row">
-        <div class="feature-label">給与連携</div>
+        <div class="feature-label">給与ソフト連携</div>
         <div class="feature-body">
           <h3>freee・マネーフォワード・SmartHRに直接流し込む</h3>
           <p>各社フォーマットに対応したCSVを出力。給与ソフトへの手入力は不要になります。月末の転記作業がゼロになります。</p>
@@ -282,10 +301,10 @@ footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;just
     <h2 class="section-h">シンプルな<br><strong>料金体系。</strong></h2>
     <p class="section-p">プランは一つのみ。初期費用と月額だけです。スタッフ数・店舗数が増えても料金は変わりません。</p>
 
-    <div style="margin-top:48px;background:#fff;border:1px solid #e8e8e8;border-radius:16px;overflow:hidden;max-width:640px;">
+    <div style="margin-top:48px;background:#fff;border:2px solid #c8c8c4;border-radius:16px;overflow:hidden;max-width:640px;">
       <!-- 料金表示 -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #f0f0f0;">
-        <div style="padding:36px 32px;border-right:1px solid #f0f0f0;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:2px solid #e0e0dc;">
+        <div style="padding:36px 32px;border-right:2px solid #e0e0dc;">
           <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:14px;">導入サポート費</div>
           <div style="font-size:38px;font-weight:300;letter-spacing:-.02em;color:#111;line-height:1;">¥30,000</div>
           <div style="font-size:13px;color:#555;margin-top:6px;">初回のみ・税別</div>
@@ -496,6 +515,19 @@ window.addEventListener('scroll', function(){
   var nav = document.querySelector('nav');
   nav.style.borderBottomColor = window.scrollY > 20 ? 'rgba(0,0,0,0.08)' : 'rgba(0,0,0,0.06)';
 });
+
+// スクロールアニメーション
+var scrollTargets = document.querySelectorAll('.problem-item, .feature-row, .faq-item, .price-wrap > *, .contact-info, .contact-form');
+scrollTargets.forEach(function(el){ el.classList.add('scroll-hidden'); });
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      entry.target.classList.add('scroll-visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+scrollTargets.forEach(function(el){ observer.observe(el); });
 </script>
 </body>
 </html>
