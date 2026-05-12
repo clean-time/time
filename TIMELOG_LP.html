@@ -46,7 +46,7 @@ section{padding:100px 24px;}
 .eyebrow{font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:#2bac97;margin-bottom:16px;}
 .section-h{font-size:clamp(26px,4vw,42px);font-weight:300;letter-spacing:-.02em;line-height:1.25;margin-bottom:20px;}
 .section-h strong{font-weight:600;}
-.section-p{font-size:16px;color:#666;line-height:1.85;max-width:560px;font-weight:300;}
+.section-p{font-size:16px;color:#444;line-height:1.85;max-width:560px;font-weight:400;}
 
 /* ── Problem ── */
 .problem{background:#111;}
@@ -59,15 +59,15 @@ section{padding:100px 24px;}
 .problem-item p{font-size:13px;color:#666;line-height:1.75;}
 
 /* ── Features ── */
-.features{background:#f7f7f5;}
-.feature-list{margin-top:60px;display:flex;flex-direction:column;gap:1px;background:#e8e8e5;border:1px solid #e8e8e5;}
-.feature-row{background:#f7f7f5;display:grid;grid-template-columns:1fr 2fr;gap:0;padding:48px 40px;align-items:start;}
-.feature-row:hover{background:#f0f0ed;}
+.features{background:#f4f4f1;}
+.feature-list{margin-top:60px;display:flex;flex-direction:column;gap:1px;background:#d8d8d4;border:1px solid #d8d8d4;}
+.feature-row{background:#f4f4f1;display:grid;grid-template-columns:1fr 2fr;gap:0;padding:48px 40px;align-items:start;}
+.feature-row:hover{background:#eeeee9;}
 .feature-label{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#2bac97;padding-top:4px;}
 .feature-body h3{font-size:20px;font-weight:500;color:#111;margin-bottom:10px;}
-.feature-body p{font-size:14px;color:#777;line-height:1.8;max-width:480px;}
+.feature-body p{font-size:14px;color:#444;line-height:1.8;max-width:480px;}
 .feature-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
-.ftag{font-size:11px;color:#555;background:#e5e5e2;padding:3px 10px;border-radius:4px;}
+.ftag{font-size:11px;color:#333;background:#ddddd8;padding:4px 12px;border-radius:4px;font-weight:500;}
 @media(max-width:640px){.feature-row{grid-template-columns:1fr;gap:12px;padding:28px 24px;}}
 
 /* ── Compare ── */
@@ -95,13 +95,13 @@ section{padding:100px 24px;}
 .price-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:40px;transition:border-color .2s;}
 .price-card:hover{border-color:#2bac97;}
 .price-card.main{border-color:#111;}
-.price-name{font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:20px;}
+.price-name{font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#666;margin-bottom:20px;}
 .price-num{font-size:44px;font-weight:300;letter-spacing:-.02em;color:#111;line-height:1;}
-.price-num sub{font-size:16px;font-weight:400;color:#aaa;vertical-align:baseline;}
-.price-init{font-size:13px;color:#aaa;margin-top:8px;}
-.price-div{height:1px;background:#f0f0f0;margin:28px 0;}
+.price-num sub{font-size:16px;font-weight:400;color:#555;vertical-align:baseline;}
+.price-init{font-size:13px;color:#555;margin-top:8px;}
+.price-div{height:1px;background:#e0e0e0;margin:28px 0;}
 .price-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
-.price-list li{font-size:13px;color:#555;display:flex;align-items:flex-start;gap:8px;}
+.price-list li{font-size:13px;color:#333;display:flex;align-items:flex-start;gap:8px;}
 .price-list li::before{content:'—';color:#2bac97;flex-shrink:0;font-weight:500;}
 .price-action{display:block;text-align:center;margin-top:32px;padding:14px;border-radius:6px;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s;}
 .price-action.dark{background:#111;color:#fff;}
@@ -120,7 +120,7 @@ section{padding:100px 24px;}
 .faq-q span{font-size:15px;font-weight:500;color:#111;}
 .faq-q::after{content:'+';font-size:20px;color:#ccc;flex-shrink:0;transition:transform .2s;}
 .faq-item.open .faq-q::after{transform:rotate(45deg);color:#2bac97;}
-.faq-a{display:none;font-size:14px;color:#777;line-height:1.85;margin-top:14px;padding-right:32px;}
+.faq-a{display:none;font-size:14px;color:#444;line-height:1.85;margin-top:14px;padding-right:32px;}
 .faq-item.open .faq-a{display:block;}
 
 /* ── Contact ── */
@@ -169,7 +169,7 @@ footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;just
 <!-- Hero -->
 <section class="hero">
   <div class="hero-eyebrow">複数店舗・複数現場の勤怠管理</div>
-  <h1>シフトも給与計算も、<br><strong>もう手作業にしない。</strong></h1>
+  <h1>シフトも給与計算も、<br><strong>もっとシンプルに。</strong></h1>
   <p>店舗が増えるほど複雑になる勤怠管理を、一つのシステムで整理する。スタッフはスマホで打刻、管理者は画面一つで完結。</p>
   <div class="hero-actions">
     <a href="#contact" class="btn-dark" onclick="selectPlan('まず話を聞きたい')">無料相談を予約する</a>
@@ -184,12 +184,12 @@ footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;just
 <section class="problem">
   <div class="container">
     <div class="eyebrow">Problem</div>
-    <h2 class="section-h">3店舗を超えたあたりから、<br><strong>管理が追いつかなくなる。</strong></h2>
+    <h2 class="section-h">店舗が増えるほど、<br><strong>管理の負担も増えていきます。</strong></h2>
     <div class="problem-grid">
       <div class="problem-item">
         <div class="num">01</div>
         <h3>Excelのシフト表を毎月作り直している</h3>
-        <p>希望を集めてコピペして調整して。この作業だけで月に何時間も消えている。</p>
+        <p>希望の収集から割り当て・調整まで、この作業だけで毎月多くの時間が費やされています。</p>
       </div>
       <div class="problem-item">
         <div class="num">02</div>
@@ -198,13 +198,13 @@ footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;just
       </div>
       <div class="problem-item">
         <div class="num">03</div>
-        <h3>深夜・残業の計算をミスると怖い</h3>
-        <p>割増賃金の計算を手動でやっている。ミスが出るたびにスタッフとの関係が崩れる。</p>
+        <h3>深夜・残業の計算に不安がある</h3>
+        <p>割増賃金の計算を手動で行うと、ミスが発生した際にスタッフとの信頼関係にも影響します。</p>
       </div>
       <div class="problem-item">
         <div class="num">04</div>
-        <h3>給与ソフトへの転記が毎月大変</h3>
-        <p>勤怠データを手で入力している。ミスが怖いし、この作業に意味を感じられない。</p>
+        <h3>給与ソフトへの転記に時間がかかる</h3>
+        <p>勤怠データを手作業で入力する作業は、ミスのリスクも高く、毎月の大きな負担になっています。</p>
       </div>
     </div>
   </div>
@@ -332,19 +332,19 @@ footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;just
       <!-- 料金表示 -->
       <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #f0f0f0;">
         <div style="padding:36px 32px;border-right:1px solid #f0f0f0;">
-          <div style="font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:14px;">導入サポート費</div>
+          <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:14px;">導入サポート費</div>
           <div style="font-size:38px;font-weight:300;letter-spacing:-.02em;color:#111;line-height:1;">¥30,000</div>
-          <div style="font-size:12px;color:#aaa;margin-top:6px;">初回のみ・税別</div>
+          <div style="font-size:13px;color:#555;margin-top:6px;">初回のみ・税別</div>
         </div>
         <div style="padding:36px 32px;">
-          <div style="font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:14px;">月額利用料</div>
+          <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:14px;">月額利用料</div>
           <div style="font-size:38px;font-weight:300;letter-spacing:-.02em;color:#111;line-height:1;">¥5,000</div>
-          <div style="font-size:12px;color:#aaa;margin-top:6px;">年間契約・税別</div>
+          <div style="font-size:13px;color:#555;margin-top:6px;">年間契約・税別</div>
         </div>
       </div>
       <!-- 含まれるもの -->
       <div style="padding:28px 32px;">
-        <div style="font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:16px;">含まれるもの</div>
+        <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:16px;">含まれるもの</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;">
           <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>店舗設定・スタッフ登録</div>
           <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>全機能利用可能</div>
@@ -396,11 +396,11 @@ footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;just
 <section class="contact" id="contact">
   <div class="container">
     <div class="eyebrow">Contact</div>
-    <h2 class="section-h">まず、話しましょう。</h2>
-    <p class="section-p">「うちの業態に合うか分からない」でも大丈夫です。状況をお聞きして、合わなければ正直にお伝えします。</p>
+    <h2 class="section-h">お気軽に<br><strong>ご相談ください。</strong></h2>
+    <p class="section-p">「自社の業態に合うか分からない」といったご不明点でも、まずはお気軽にお問い合わせください。状況をお伺いしたうえで、最適な方法をご提案いたします。</p>
     <div class="contact-wrap">
       <div class="contact-info">
-        <p>お問い合わせいただいた内容は1営業日以内にご返信します。お急ぎの場合はお電話ください。</p>
+        <p>お問い合わせいただいた内容は1営業日以内にご返信いたします。お気軽にご連絡ください。</p>
         <div class="contact-detail">
           <div class="contact-detail-item">
             <div class="label">電話</div>
@@ -469,7 +469,7 @@ footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;just
         </div>
         <p id="f_error" style="color:#ff6b6b;font-size:13px;margin-bottom:10px;display:none;"></p>
         <button id="f_submit" class="form-submit" onclick="submitForm()">送信する</button>
-        <p class="form-note">返信は1営業日以内。売り込みはしません。</p>
+        <p class="form-note">1営業日以内にご返信いたします。</p>
       </div>
     </div>
   </div>
