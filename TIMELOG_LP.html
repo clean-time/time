@@ -1,227 +1,800 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="color-scheme" content="only light">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TIMELOG｜複数店舗の勤怠管理を、シンプルに。</title>
-<meta name="description" content="シフト管理・打刻・給与ソフトデータ連携まで。複数店舗・複数現場を持つ飲食・派遣・警備業に特化した勤怠管理システム。月額¥3,500〜。">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:'Inter','Noto Sans JP',sans-serif;color:#111;background:#fff;line-height:1.7;-webkit-font-smoothing:antialiased;}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="シフト管理・打刻・給与ソフトデータ連携まで。複数店舗・複数現場を持つ飲食・派遣・警備業に特化した勤怠管理システム。月額¥2,000〜。" />
+  <title>TIMELOG – スマートな勤怠管理システム</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: '#0b2420',
+            'mid-green': '#1d5c54',
+            teal: '#2bac97',
+            'light-teal': '#d4eeeb',
+            'bg-dark': '#060e0c',
+          },
+          fontFamily: {
+            grotesk: ['Space Grotesk', 'sans-serif'],
+            jp: ['Noto Sans JP', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background-color: #060e0c;
+      color: rgba(255,255,255,0.85);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
 
-/* ── Nav ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.06);}
-.logo{font-size:18px;font-weight:600;letter-spacing:.04em;color:#111;}
-.logo span{color:#2bac97;}
-.nav-links{display:flex;align-items:center;gap:32px;}
-.nav-links a{font-size:13px;color:#666;text-decoration:none;transition:color .2s;}
-.nav-links a:hover{color:#111;}
-.nav-cta{font-size:13px;font-weight:500;color:#fff;background:#111;padding:10px 24px;border-radius:6px;text-decoration:none;transition:background .2s;}
-.nav-cta:hover{background:#2bac97;}
-@media(max-width:640px){.nav-links{display:none;}.logo{font-size:16px;}nav{padding:16px 20px;}}
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(6,14,12,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(43,172,151,0.15);
+      transition: border-color 0.3s;
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 64px;
+    }
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem; font-weight: 700; color: #2bac97;
+      letter-spacing: 0.04em; text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      color: rgba(255,255,255,0.65); text-decoration: none;
+      font-size: 0.9rem; transition: color 0.2s; font-weight: 500;
+    }
+    .nav-links a:hover { color: #2bac97; }
+    .btn-nav {
+      background: #2bac97; color: #fff;
+      padding: 8px 20px; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 600;
+      text-decoration: none; transition: background 0.2s, transform 0.1s;
+    }
+    .btn-nav:hover { background: #1d9b87; transform: translateY(-1px); }
+    @media (max-width: 640px) {
+      .nav-links .hide-sm { display: none; }
+      .nav-inner { padding: 0 16px; }
+    }
 
-/* ── アニメーション ── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
-@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-@keyframes logoReveal{0%{opacity:0;transform:scale(.88) translateY(16px);letter-spacing:.2em;}100%{opacity:1;transform:scale(1) translateY(0);letter-spacing:.04em;}}
-.anim-logo{animation:logoReveal .9s cubic-bezier(.22,1,.36,1) forwards;}
-.anim-1{opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) .4s forwards;}
-.anim-2{opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) .65s forwards;}
-.anim-3{opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) .85s forwards;}
-.anim-4{opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) 1.05s forwards;}
-.anim-5{opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) 1.2s forwards;}
-/* スクロールアニメーション */
-.scroll-hidden{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);}
-.scroll-visible{opacity:1;transform:translateY(0);}
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 100px 24px 60px;
+      position: relative; overflow: hidden;
+      background: linear-gradient(160deg, #060e0c 0%, #0b2420 60%, #1d5c54 100%);
+    }
+    .hero-bg {
+      position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+    }
+    .dot {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, rgba(43,172,151,0.25) 0%, transparent 70%);
+      animation: floatDot linear infinite;
+    }
+    @keyframes floatDot {
+      0%   { transform: translateY(0) scale(1); opacity: 0.4; }
+      50%  { transform: translateY(-40px) scale(1.1); opacity: 0.7; }
+      100% { transform: translateY(0) scale(1); opacity: 0.4; }
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(43,172,151,0.12);
+      border: 1px solid rgba(43,172,151,0.35);
+      padding: 6px 16px; border-radius: 999px;
+      font-size: 0.82rem; color: #2bac97;
+      margin-bottom: 28px; letter-spacing: 0.05em;
+      position: relative; z-index: 1;
+    }
+    .hero h1 {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-weight: 700; line-height: 1.3;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #d4eeeb 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative; z-index: 1;
+    }
+    .hero p {
+      font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+      color: rgba(255,255,255,0.65); max-width: 560px;
+      line-height: 1.8; margin-bottom: 40px;
+      position: relative; z-index: 1;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; }
+    .btn-primary {
+      background: #2bac97; color: #fff;
+      padding: 14px 32px; border-radius: 10px;
+      font-size: 1rem; font-weight: 700;
+      text-decoration: none; transition: all 0.2s;
+      border: none; cursor: pointer; display: inline-block;
+    }
+    .btn-primary:hover { background: #1d9b87; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(43,172,151,0.35); }
+    .btn-outline {
+      background: transparent; color: rgba(255,255,255,0.85);
+      padding: 14px 32px; border-radius: 10px;
+      font-size: 1rem; font-weight: 700;
+      text-decoration: none; transition: all 0.2s;
+      border: 1.5px solid rgba(255,255,255,0.3); cursor: pointer; display: inline-block;
+    }
+    .btn-outline:hover { border-color: #2bac97; color: #2bac97; transform: translateY(-2px); }
+    .hero-stats {
+      display: flex; gap: 40px; flex-wrap: wrap; justify-content: center;
+      margin-top: 56px; padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      position: relative; z-index: 1;
+    }
+    .stat-item { text-align: center; }
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem; font-weight: 700; color: #2bac97;
+    }
+    .stat-label { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-top: 4px; }
 
-/* ── Hero ── */
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;background:linear-gradient(160deg,#0f2d27 0%,#1a4a3d 50%,#0f2d27 100%);}
-.hero-brand{font-size:clamp(48px,8vw,96px);font-weight:600;letter-spacing:.04em;color:#fff;margin-bottom:20px;line-height:1;}
-.hero-brand span{color:#2bac97;}
-.hero-eyebrow{font-size:12px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:#2bac97;margin-bottom:20px;}
-.hero h1{font-size:clamp(28px,4vw,52px);font-weight:300;line-height:1.25;letter-spacing:-.02em;color:rgba(255,255,255,.9);margin-bottom:20px;}
-.hero h1 strong{font-weight:600;}
-.hero p{font-size:clamp(14px,2vw,17px);color:rgba(255,255,255,.55);max-width:480px;margin:0 auto 44px;line-height:1.85;font-weight:300;}
-.hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
-.btn-dark{background:#2bac97;color:#fff;padding:16px 36px;border-radius:6px;font-size:15px;font-weight:500;text-decoration:none;transition:all .25s;box-shadow:0 4px 20px rgba(43,172,151,.35);}
-.btn-dark:hover{background:#24967f;transform:translateY(-2px);box-shadow:0 8px 28px rgba(43,172,151,.45);}
-.btn-light{border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);padding:16px 36px;border-radius:6px;font-size:15px;font-weight:500;text-decoration:none;transition:all .25s;}
-.btn-light:hover{border-color:rgba(255,255,255,.5);color:#fff;}
-.hero-note{margin-top:20px;font-size:12px;color:rgba(255,255,255,.25);}
-.hero-line{width:48px;height:2px;background:#2bac97;margin:0 auto 28px;}
+    /* ─── SECTIONS ─── */
+    section { padding: 96px 24px; }
+    .section-label {
+      text-align: center; font-size: 0.78rem; font-weight: 600;
+      color: #2bac97; letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      text-align: center;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 700; margin-bottom: 16px;
+    }
+    .section-sub {
+      text-align: center; color: rgba(255,255,255,0.45);
+      font-size: 0.95rem; max-width: 520px; margin: 0 auto 56px;
+      line-height: 1.75;
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
 
-/* ── Divider ── */
-.line{height:1px;background:#f0f0f0;margin:0;}
+    /* ─── PAIN POINTS ─── */
+    .pain-section { background: #060e0c; }
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .pain-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px; padding: 28px 24px;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .pain-card:hover { transform: translateY(-4px); border-color: rgba(239,68,68,0.25); }
+    .pain-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem; font-weight: 700; color: #2bac97;
+      letter-spacing: 0.1em; margin-bottom: 14px;
+    }
+    .pain-card h3 { font-size: 0.95rem; font-weight: 700; color: rgba(255,255,255,0.9); margin-bottom: 10px; line-height: 1.4; }
+    .pain-card p { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.75; }
+    .pain-accent {
+      display: inline-block; width: 32px; height: 3px;
+      background: linear-gradient(90deg, #ef4444, #f97316);
+      border-radius: 2px; margin-bottom: 16px;
+    }
 
-/* ── Section ── */
-section{padding:100px 24px;}
-.container{max-width:960px;margin:0 auto;}
-.eyebrow{font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:#2bac97;margin-bottom:16px;}
-.section-h{font-size:clamp(26px,4vw,42px);font-weight:300;letter-spacing:-.02em;line-height:1.25;margin-bottom:20px;}
-.section-h strong{font-weight:600;}
-.section-p{font-size:16px;color:#444;line-height:1.85;max-width:560px;font-weight:400;}
+    /* ─── DEMO ─── */
+    .demo-section { background: linear-gradient(180deg, #060e0c 0%, #0b2420 100%); }
+    .demo-wrapper {
+      display: flex; flex-direction: column; align-items: center; gap: 32px;
+    }
+    /* Phone mockup */
+    .phone-outer {
+      width: 300px; height: 600px;
+      background: #1a1a1a;
+      border-radius: 44px;
+      padding: 12px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.12),
+        0 0 0 3px #111,
+        0 0 0 4px rgba(255,255,255,0.06),
+        0 32px 64px rgba(0,0,0,0.8),
+        0 0 80px rgba(43,172,151,0.1);
+      position: relative;
+    }
+    .phone-inner {
+      width: 100%; height: 100%;
+      background: #060e0c;
+      border-radius: 34px;
+      overflow: hidden;
+      position: relative;
+    }
+    .phone-notch {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 100px; height: 28px;
+      background: #1a1a1a; border-radius: 0 0 18px 18px; z-index: 10;
+    }
+    .phone-side-btn {
+      position: absolute; right: -3px; top: 110px;
+      width: 3px; height: 60px; background: #333; border-radius: 0 3px 3px 0;
+    }
+    .phone-vol-up {
+      position: absolute; left: -3px; top: 100px;
+      width: 3px; height: 36px; background: #333; border-radius: 3px 0 0 3px;
+    }
+    .phone-vol-down {
+      position: absolute; left: -3px; top: 148px;
+      width: 3px; height: 36px; background: #333; border-radius: 3px 0 0 3px;
+    }
+    /* Demo screens */
+    .demo-screen {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      opacity: 0; transition: opacity 0.4s ease;
+      pointer-events: none;
+      padding-top: 28px;
+      font-size: 0.8rem;
+    }
+    .demo-screen.active { opacity: 1; pointer-events: auto; }
+    /* Screen 1: Login */
+    .screen-login {
+      background: #060e0c;
+      align-items: center; justify-content: center; gap: 0;
+      padding: 28px 20px 20px;
+    }
+    .screen-login .app-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem; font-weight: 700; color: #2bac97;
+      margin-bottom: 4px;
+    }
+    .screen-login .app-sub {
+      font-size: 0.65rem; color: rgba(255,255,255,0.4); margin-bottom: 32px;
+    }
+    .demo-input {
+      width: 100%; background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px; padding: 10px 14px;
+      color: rgba(255,255,255,0.8); font-size: 0.78rem;
+      margin-bottom: 10px; outline: none;
+    }
+    .demo-input::placeholder { color: rgba(255,255,255,0.3); }
+    .demo-input:focus { border-color: #2bac97; }
+    .demo-btn-login {
+      width: 100%; background: #2bac97; color: #fff;
+      border: none; border-radius: 10px; padding: 12px;
+      font-weight: 700; font-size: 0.82rem; margin-top: 4px;
+      cursor: pointer;
+    }
+    .lang-dots {
+      display: flex; gap: 6px; justify-content: center; margin-top: 24px;
+    }
+    .lang-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+    }
+    .lang-dot.active-dot { background: #2bac97; }
+    /* Screen 2: Clock-in */
+    .screen-clock {
+      background: #060e0c;
+      padding: 28px 16px 0;
+    }
+    .clock-header {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+    }
+    .clock-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #2bac97, #1d5c54);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .clock-name { font-weight: 700; font-size: 0.82rem; }
+    .clock-area { font-size: 0.65rem; color: rgba(255,255,255,0.4); }
+    .clock-time {
+      text-align: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem; font-weight: 700; color: #fff;
+      letter-spacing: -0.02em; margin: 8px 0;
+      text-shadow: 0 0 30px rgba(43,172,151,0.4);
+    }
+    .clock-date { text-align: center; font-size: 0.65rem; color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 999px;
+      font-size: 0.68rem; font-weight: 600;
+      margin: 0 auto 12px; display: flex; justify-content: center;
+    }
+    .status-badge.idle { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .site-select {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px; padding: 9px 12px;
+      color: rgba(255,255,255,0.5); font-size: 0.72rem;
+      margin-bottom: 12px; appearance: none;
+    }
+    .clock-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .btn-checkin {
+      padding: 14px 0; border-radius: 12px;
+      font-weight: 700; font-size: 0.82rem; border: none; cursor: pointer;
+    }
+    .btn-in { background: #2bac97; color: #fff; }
+    .btn-out { background: #7f1d1d; color: #fca5a5; }
+    .phone-nav {
+      display: flex; border-top: 1px solid rgba(255,255,255,0.07);
+      margin-top: auto;
+    }
+    .phone-nav-item {
+      flex: 1; text-align: center; padding: 8px 4px;
+      font-size: 0.58rem; color: rgba(255,255,255,0.35);
+      cursor: pointer;
+    }
+    .phone-nav-item.active { color: #2bac97; }
+    .phone-nav-icon { font-size: 1rem; display: block; margin-bottom: 2px; }
+    /* Screen 3: History */
+    .screen-history { background: #060e0c; padding: 0; }
+    .history-header {
+      background: linear-gradient(135deg, #0b2420, #1d5c54);
+      padding: 36px 16px 16px;
+      text-align: center;
+    }
+    .history-header h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem; font-weight: 700; color: #fff; letter-spacing: 0.1em;
+    }
+    .month-tabs { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
+    .month-tab {
+      padding: 4px 14px; border-radius: 999px; font-size: 0.68rem;
+      border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.5);
+      background: transparent;
+    }
+    .month-tab.active { background: #2bac97; border-color: #2bac97; color: #fff; font-weight: 700; }
+    .record-list { padding: 10px 12px; flex: 1; overflow-y: auto; }
+    .record-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 10px; border-radius: 10px;
+      background: rgba(255,255,255,0.04); margin-bottom: 6px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .record-date { font-size: 0.68rem; font-weight: 700; color: rgba(255,255,255,0.6); min-width: 40px; }
+    .record-times { flex: 1; font-size: 0.65rem; color: rgba(255,255,255,0.5); }
+    .record-hours { font-size: 0.7rem; font-weight: 700; color: #2bac97; }
+    .record-holiday { flex: 1; font-size: 0.65rem; color: rgba(255,255,255,0.3); }
+    .monthly-close-btn {
+      margin: 8px 12px; width: calc(100% - 24px);
+      padding: 11px; border-radius: 10px; border: none;
+      background: linear-gradient(135deg, #0b2420, #1d5c54);
+      border: 1px solid rgba(43,172,151,0.4);
+      color: #2bac97; font-weight: 700; font-size: 0.72rem; cursor: pointer;
+    }
+    /* Screen 4: Admin */
+    .screen-admin { background: #060e0c; padding: 0; }
+    .admin-header {
+      background: linear-gradient(135deg, #0b2420, #1d5c54);
+      padding: 36px 16px 14px;
+    }
+    .admin-header .admin-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem; font-weight: 700; color: #fff; letter-spacing: 0.06em;
+    }
+    .admin-tabs { display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .admin-tab {
+      flex: 1; text-align: center; padding: 8px 4px;
+      font-size: 0.6rem; color: rgba(255,255,255,0.4);
+      border-bottom: 2px solid transparent;
+    }
+    .admin-tab.active { color: #2bac97; border-bottom-color: #2bac97; }
+    .pending-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.25);
+      padding: 5px 12px; border-radius: 8px;
+      font-size: 0.65rem; color: #f87171; margin: 10px 12px 6px;
+    }
+    .approval-item {
+      margin: 0 12px 8px; padding: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+    }
+    .approval-name { font-size: 0.72rem; font-weight: 700; margin-bottom: 3px; }
+    .approval-req { font-size: 0.62rem; color: rgba(255,255,255,0.45); margin-bottom: 7px; }
+    .approval-actions { display: flex; gap: 6px; }
+    .btn-approve {
+      flex: 1; padding: 5px; border-radius: 6px; border: none;
+      background: rgba(43,172,151,0.2); color: #2bac97;
+      font-size: 0.62rem; font-weight: 700; cursor: pointer;
+    }
+    .btn-reject {
+      flex: 1; padding: 5px; border-radius: 6px; border: none;
+      background: rgba(239,68,68,0.12); color: #f87171;
+      font-size: 0.62rem; font-weight: 700; cursor: pointer;
+    }
+    /* Demo tabs */
+    .demo-tabs {
+      display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+    }
+    .demo-tab {
+      padding: 9px 20px; border-radius: 999px;
+      font-size: 0.85rem; font-weight: 600;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.5); background: transparent;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .demo-tab.active {
+      background: #2bac97; border-color: #2bac97; color: #fff;
+    }
+    .demo-tab:hover:not(.active) { border-color: rgba(43,172,151,0.4); color: rgba(255,255,255,0.8); }
+    /* GPS SCREEN */
+    .screen-gps { background:#060e0c; padding:16px; display:flex; flex-direction:column; gap:10px; }
+    .gps-punch-header { display:flex; align-items:center; gap:10px; padding:10px 12px; background:rgba(43,172,151,0.12); border-radius:12px; border:1px solid rgba(43,172,151,0.25); }
+    .gps-avatar { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#1d5c54,#2bac97); display:flex; align-items:center; justify-content:center; font-weight:900; color:white; font-size:14px; flex-shrink:0; }
+    .gps-map { border-radius:12px; overflow:hidden; height:90px; background:linear-gradient(135deg,#0d2e28,#0a1e1a); border:1px solid rgba(43,172,151,0.2); position:relative; display:flex; align-items:center; justify-content:center; }
+    .gps-map::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,rgba(43,172,151,0.04) 0px,rgba(43,172,151,0.04) 1px,transparent 1px,transparent 24px),repeating-linear-gradient(90deg,rgba(43,172,151,0.04) 0px,rgba(43,172,151,0.04) 1px,transparent 1px,transparent 24px); }
+    .gps-pin { font-size:28px; position:relative; z-index:1; filter:drop-shadow(0 2px 8px rgba(43,172,151,0.6)); animation:gpsPin 1.5s ease-in-out infinite; }
+    @keyframes gpsPin { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    .gps-coords { font-size:10px; color:#2bac97; font-family:'Space Grotesk',monospace; text-align:center; }
+    .gps-status-ok { display:flex; align-items:center; gap:6px; padding:8px 12px; background:rgba(43,172,151,0.1); border-radius:10px; border:1px solid rgba(43,172,151,0.25); }
+    .gps-status-dot { width:8px; height:8px; border-radius:50%; background:#2bac97; animation:pulse2 1.5s infinite; flex-shrink:0; }
+    @keyframes pulse2 { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+    .gps-log-item { display:flex; align-items:center; gap:8px; padding:7px 10px; background:rgba(255,255,255,0.03); border-radius:8px; font-size:11px; }
+    .gps-log-badge { font-size:9px; font-weight:700; padding:2px 7px; border-radius:6px; flex-shrink:0; }
+    .badge-in  { background:rgba(43,172,151,0.2); color:#2bac97; }
+    .badge-out { background:rgba(239,68,68,0.15); color:#f87171; }
+    /* REPORT SCREEN */
+    .screen-report { background:#060e0c; display:flex; flex-direction:column; }
+    .report-header { background:linear-gradient(135deg,#0b2420,#1d5c54); padding:12px 14px; }
+    .report-title { font-size:11px; font-weight:700; color:rgba(255,255,255,0.5); letter-spacing:2px; text-transform:uppercase; }
+    .report-month { font-size:16px; font-weight:900; color:white; margin-top:2px; }
+    .report-summary { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; padding:10px 14px; }
+    .report-stat { background:rgba(43,172,151,0.08); border:1px solid rgba(43,172,151,0.15); border-radius:10px; padding:8px; text-align:center; }
+    .report-stat-num { font-size:18px; font-weight:900; color:#2bac97; font-family:'Space Grotesk',sans-serif; line-height:1; }
+    .report-stat-label { font-size:9px; color:rgba(255,255,255,0.4); margin-top:3px; }
+    .report-table { margin:0 14px; border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.07); font-size:11px; }
+    .report-table-head { display:grid; grid-template-columns:40px 1fr 1fr 1fr; background:rgba(43,172,151,0.15); padding:6px 8px; color:rgba(255,255,255,0.5); font-weight:700; font-size:9px; letter-spacing:0.5px; }
+    .report-table-row { display:grid; grid-template-columns:40px 1fr 1fr 1fr; padding:7px 8px; border-top:1px solid rgba(255,255,255,0.05); color:rgba(255,255,255,0.75); }
+    .report-table-row:nth-child(even) { background:rgba(255,255,255,0.02); }
+    .report-pdf-btn { margin:10px 14px; padding:11px; border-radius:10px; border:none; background:linear-gradient(135deg,#2bac97,#1a7a6e); color:white; font-size:13px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; }
+    /* PDF SUMMARY SCREEN */
+    .screen-pdf { background:#060e0c; display:flex; flex-direction:column; }
+    .pdf-header { background:linear-gradient(135deg,#0b2420,#1d5c54); padding:12px 14px; }
+    .pdf-title { font-size:11px; font-weight:700; color:rgba(255,255,255,0.5); letter-spacing:2px; text-transform:uppercase; }
+    .pdf-subtitle { font-size:14px; font-weight:900; color:white; margin-top:2px; }
+    .pdf-filter { display:flex; gap:6px; padding:8px 14px; }
+    .pdf-filter-chip { font-size:10px; font-weight:700; padding:4px 10px; border-radius:20px; border:1px solid rgba(43,172,151,0.3); color:#2bac97; background:rgba(43,172,151,0.08); }
+    .pdf-filter-chip.active { background:#2bac97; color:white; border-color:#2bac97; }
+    .pdf-staff-table { margin:0 14px; border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.07); font-size:10px; }
+    .pdf-table-head { display:grid; grid-template-columns:1fr 36px 44px 36px; background:rgba(43,172,151,0.15); padding:6px 8px; color:rgba(255,255,255,0.5); font-weight:700; font-size:9px; letter-spacing:0.3px; }
+    .pdf-table-row { display:grid; grid-template-columns:1fr 36px 44px 36px; padding:8px; border-top:1px solid rgba(255,255,255,0.05); align-items:center; }
+    .pdf-table-row:nth-child(even) { background:rgba(255,255,255,0.02); }
+    .pdf-staff-name { font-weight:700; color:rgba(255,255,255,0.85); font-size:11px; }
+    .pdf-staff-flag { font-size:8px; color:rgba(255,255,255,0.35); }
+    .pdf-num { text-align:right; color:#2bac97; font-weight:700; font-family:'Space Grotesk',sans-serif; }
+    .pdf-export-btn { margin:10px 14px; padding:11px; border-radius:10px; border:none; background:linear-gradient(135deg,#2bac97,#1a7a6e); color:white; font-size:12px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; }
 
-/* ── Problem ── */
-.problem{background:#111;}
-.problem .eyebrow{color:#2bac97;}
-.problem .section-h{color:#fff;}
-.problem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:#222;margin-top:60px;border:1px solid #222;}
-.problem-item{background:#111;padding:36px 32px;}
-.problem-item .num{font-size:11px;font-weight:500;color:#333;letter-spacing:.1em;margin-bottom:16px;}
-.problem-item h3{font-size:16px;font-weight:500;color:#fff;margin-bottom:10px;line-height:1.4;}
-.problem-item p{font-size:13px;color:#666;line-height:1.75;}
+    /* ─── FEATURES ─── */
+    .features-section { background: #060e0c; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px; padding: 28px 24px;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: #2bac97;
+      box-shadow: 0 12px 32px rgba(43,172,151,0.08);
+    }
+    .feature-card-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #2bac97; margin-bottom: 12px;
+    }
+    .feature-card h3 { font-weight: 700; font-size: 1rem; margin-bottom: 10px; color: rgba(255,255,255,0.9); }
+    .feature-card p { font-size: 0.87rem; color: rgba(255,255,255,0.5); line-height: 1.75; margin-bottom: 14px; }
+    .feature-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .ftag {
+      font-size: 0.72rem; color: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+      padding: 3px 10px; border-radius: 4px; font-weight: 500;
+    }
 
-/* ── Features ── */
-.features{background:#eaeae6;}
-.feature-list{margin-top:60px;display:flex;flex-direction:column;gap:1px;background:#b8b8b2;border:1px solid #b8b8b2;}
-.feature-row{background:#fff;display:grid;grid-template-columns:1fr 2fr;gap:0;padding:48px 40px;align-items:start;}
-.feature-row:hover{background:#f7f7f4;}
-.feature-label{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#2bac97;padding-top:4px;}
-.feature-body h3{font-size:20px;font-weight:500;color:#111;margin-bottom:10px;}
-.feature-body p{font-size:14px;color:#444;line-height:1.8;max-width:480px;}
-.feature-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
-.ftag{font-size:11px;color:#333;background:#ddddd8;padding:4px 12px;border-radius:4px;font-weight:500;}
-@media(max-width:640px){.feature-row{grid-template-columns:1fr;gap:12px;padding:28px 24px;}}
+    /* ─── COMPARE TABLE ─── */
+    .compare-section { background: #0b2420; }
+    .compare-table-wrap { overflow-x: auto; }
+    .compare-table {
+      width: 100%; border-collapse: collapse;
+      margin-top: 48px; font-size: 0.88rem; min-width: 600px;
+    }
+    .compare-table th {
+      padding: 14px 20px; text-align: left;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.35);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .compare-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.5);
+    }
+    .compare-table tr.hl td {
+      background: rgba(43,172,151,0.08);
+      color: rgba(255,255,255,0.9);
+    }
+    .compare-table tr.hl td:first-child { color: #2bac97; font-weight: 700; }
+    .compare-table .check { color: #2bac97; font-weight: 700; }
+    .compare-table .cross { color: rgba(255,255,255,0.2); }
+    .compare-note { font-size: 0.78rem; color: rgba(255,255,255,0.2); margin-top: 16px; text-align: right; }
 
-/* ── Compare ── */
-.compare{background:#0d1a17;}
-.compare .eyebrow{color:#2bac97;}
-.compare .section-h{color:#fff;}
-.compare .section-p{color:rgba(255,255,255,.45);}
-.compare .compare-note{color:rgba(255,255,255,.2);}
-.compare-table th{color:rgba(255,255,255,.3);border-bottom-color:#222;}
-.compare-table td{color:rgba(255,255,255,.5);border-bottom-color:#1a1a1a;}
-.compare-table tr.hl td{background:rgba(43,172,151,.08);color:#fff;}
-.compare-table tr.hl td:first-child{color:#2bac97;}
-.compare-table{width:100%;border-collapse:collapse;margin-top:48px;font-size:14px;}
-.compare-table th{padding:14px 20px;text-align:left;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#aaa;border-bottom:2px solid #f0f0f0;}
-.compare-table td{padding:18px 20px;border-bottom:1px solid #f5f5f5;color:#444;}
-.compare-table tr.hl td{background:#f8fffd;font-weight:500;color:#111;}
-.compare-table tr.hl td:first-child{color:#2bac97;font-weight:600;}
-.check{color:#2bac97;font-weight:600;}
-.cross{color:#ddd;}
-.compare-note{font-size:12px;color:#bbb;margin-top:16px;text-align:right;}
+    /* ─── PRICING ─── */
+    .pricing-section { background: #060e0c; }
+    .pricing-card {
+      max-width: 420px; margin: 0 auto;
+      background: linear-gradient(145deg, #0b2420, #0d1f1c);
+      border: 1px solid rgba(43,172,151,0.4);
+      border-radius: 24px; padding: 40px 36px;
+      box-shadow: 0 0 40px rgba(43,172,151,0.1), 0 32px 64px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    .plan-badge {
+      display: inline-block; padding: 5px 16px; border-radius: 999px;
+      background: rgba(43,172,151,0.15); color: #2bac97;
+      font-size: 0.78rem; font-weight: 600; margin-bottom: 20px;
+    }
+    .price-main {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3.5rem; font-weight: 700; color: #fff;
+      line-height: 1;
+    }
+    .price-unit { font-size: 1rem; color: rgba(255,255,255,0.6); }
+    .price-initial {
+      font-size: 0.85rem; color: rgba(255,255,255,0.45);
+      margin: 8px 0 28px;
+    }
+    .feature-list { text-align: left; list-style: none; padding: 0; margin-bottom: 32px; }
+    .feature-list li {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.9rem; color: rgba(255,255,255,0.8);
+    }
+    .feature-list li:last-child { border-bottom: none; }
+    .check-icon { color: #2bac97; font-size: 1.1rem; flex-shrink: 0; }
+    .pricing-cta {
+      width: 100%; background: #2bac97; color: #fff;
+      padding: 14px; border-radius: 12px;
+      font-size: 1rem; font-weight: 700;
+      text-decoration: none; display: block;
+      transition: all 0.2s; border: none; cursor: pointer;
+    }
+    .pricing-cta:hover { background: #1d9b87; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(43,172,151,0.35); }
 
-/* ── Pricing ── */
-.pricing{background:#eaeae6;}
-.price-wrap{margin-top:60px;display:grid;grid-template-columns:1fr 1fr;gap:24px;}
-.price-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:40px;transition:border-color .2s;}
-.price-card:hover{border-color:#2bac97;}
-.price-card.main{border-color:#111;}
-.price-name{font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#666;margin-bottom:20px;}
-.price-num{font-size:44px;font-weight:300;letter-spacing:-.02em;color:#111;line-height:1;}
-.price-num sub{font-size:16px;font-weight:400;color:#555;vertical-align:baseline;}
-.price-init{font-size:13px;color:#555;margin-top:8px;}
-.price-div{height:1px;background:#e0e0e0;margin:28px 0;}
-.price-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
-.price-list li{font-size:13px;color:#333;display:flex;align-items:flex-start;gap:8px;}
-.price-list li::before{content:'—';color:#2bac97;flex-shrink:0;font-weight:500;}
-.price-action{display:block;text-align:center;margin-top:32px;padding:14px;border-radius:6px;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s;}
-.price-action.dark{background:#111;color:#fff;}
-.price-action.dark:hover{background:#2bac97;}
-.price-action.outline{border:1.5px solid #ddd;color:#444;}
-.price-action.outline:hover{border-color:#111;color:#111;}
-@media(max-width:640px){.price-wrap{grid-template-columns:1fr;}}
-.price-note{font-size:12px;color:#bbb;margin-top:20px;text-align:center;}
+    /* ─── FAQ ─── */
+    .faq-section { background: #0b2420; }
+    .faq-list { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+    .faq-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px; overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; text-align: left; padding: 20px 24px;
+      background: none; border: none; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      color: rgba(255,255,255,0.9); font-size: 0.95rem; font-weight: 600;
+      font-family: 'Noto Sans JP', sans-serif;
+      transition: color 0.2s;
+    }
+    .faq-q:hover { color: #2bac97; }
+    .faq-arrow {
+      font-size: 0.75rem; color: rgba(255,255,255,0.4);
+      transition: transform 0.3s, color 0.3s;
+      flex-shrink: 0; margin-left: 16px;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); color: #2bac97; }
+    .faq-a {
+      max-height: 0; overflow: hidden; transition: max-height 0.35s ease;
+    }
+    .faq-item.open .faq-a { max-height: 300px; }
+    .faq-a-inner {
+      padding: 16px 24px 20px;
+      font-size: 0.9rem; color: rgba(255,255,255,0.55); line-height: 1.8;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
 
-/* ── FAQ ── */
-.faq{background:#fff;}
-.faq-list{margin-top:48px;max-width:680px;}
-.faq-item{border-bottom:1px solid #f0f0f0;padding:24px 0;cursor:pointer;}
-.faq-item:first-child{border-top:1px solid #f0f0f0;}
-.faq-q{display:flex;justify-content:space-between;align-items:center;gap:16px;}
-.faq-q span{font-size:15px;font-weight:500;color:#111;}
-.faq-q::after{content:'+';font-size:20px;color:#ccc;flex-shrink:0;transition:transform .2s;}
-.faq-item.open .faq-q::after{transform:rotate(45deg);color:#2bac97;}
-.faq-a{display:none;font-size:14px;color:#444;line-height:1.85;margin-top:14px;padding-right:32px;}
-.faq-item.open .faq-a{display:block;}
+    /* ─── CONTACT ─── */
+    .contact-section { background: #0b2420; }
+    .contact-wrap {
+      display: grid; grid-template-columns: 1fr 1.5fr;
+      gap: 64px; align-items: start; margin-top: 56px;
+    }
+    .contact-info-left p {
+      font-size: 0.92rem; color: rgba(255,255,255,0.45);
+      line-height: 1.85; margin-bottom: 32px;
+    }
+    .contact-detail { display: flex; flex-direction: column; gap: 20px; }
+    .contact-detail-item .c-label {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #2bac97; margin-bottom: 4px;
+    }
+    .contact-detail-item .c-val {
+      font-size: 0.95rem; color: rgba(255,255,255,0.75);
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: block; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); margin-bottom: 8px;
+    }
+    .form-input {
+      width: 100%; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px; padding: 12px 16px;
+      color: rgba(255,255,255,0.9); font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s, background 0.2s;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    .form-input:focus { border-color: #2bac97; background: rgba(255,255,255,0.07); }
+    .form-input::placeholder { color: rgba(255,255,255,0.2); }
+    select.form-input option { background: #0b2420; color: rgba(255,255,255,0.9); }
+    textarea.form-input { resize: vertical; min-height: 80px; }
+    .form-submit {
+      width: 100%; background: #2bac97; color: #fff;
+      font-size: 0.95rem; font-weight: 700; padding: 14px;
+      border-radius: 8px; border: none; cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif;
+      transition: all 0.2s; margin-top: 8px;
+    }
+    .form-submit:hover { background: #1d9b87; transform: translateY(-1px); }
+    .form-note { font-size: 0.75rem; color: rgba(255,255,255,0.25); margin-top: 12px; text-align: center; }
+    @media (max-width: 768px) {
+      .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
+    }
 
-/* ── Contact ── */
-.contact{background:#111;padding:100px 24px;}
-.contact .eyebrow{color:#2bac97;}
-.contact .section-h{color:#fff;}
-.contact .section-p{color:rgba(255,255,255,.45);}
-.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:60px;}
-.contact-info p{font-size:14px;color:rgba(255,255,255,.45);line-height:1.85;margin-bottom:32px;}
-.contact-detail{display:flex;flex-direction:column;gap:16px;}
-.contact-detail-item .label{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#2bac97;margin-bottom:4px;}
-.contact-detail-item .val{font-size:15px;color:rgba(255,255,255,.75);}
-.form-group{margin-bottom:16px;}
-.form-label{display:block;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px;}
-.form-input{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:13px 16px;color:#fff;font-size:14px;outline:none;transition:border-color .2s;font-family:inherit;}
-.form-input:focus{border-color:#2bac97;}
-.form-input::placeholder{color:rgba(255,255,255,.2);}
-select.form-input option{background:#111;color:#fff;}
-.form-submit{width:100%;background:#2bac97;color:#fff;font-size:14px;font-weight:500;padding:15px;border-radius:6px;border:none;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:8px;}
-.form-submit:hover{background:#24967f;}
-.form-note{font-size:11px;color:rgba(255,255,255,.25);margin-top:12px;text-align:center;}
-@media(max-width:640px){.contact-wrap{grid-template-columns:1fr;gap:40px;}}
+    /* ─── FOOTER ─── */
+    footer {
+      background: #060e0c;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 32px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem; font-weight: 700; color: #2bac97;
+      letter-spacing: 0.04em;
+    }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a {
+      font-size: 0.78rem; color: rgba(255,255,255,0.3);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.7); }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.2); }
+    .footer-operator { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+    @media (max-width: 640px) {
+      footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+    }
 
-/* ── Footer ── */
-footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
-.footer-logo{font-size:16px;font-weight:600;color:#fff;letter-spacing:.04em;}
-.footer-logo span{color:#2bac97;}
-.footer-links{display:flex;gap:24px;}
-.footer-links a{font-size:12px;color:rgba(255,255,255,.3);text-decoration:none;transition:color .2s;}
-.footer-links a:hover{color:rgba(255,255,255,.7);}
-.footer-copy{font-size:12px;color:rgba(255,255,255,.2);}
-</style>
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    @media (max-width: 768px) {
+      section { padding: 72px 20px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 24px; }
+      .pain-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .pain-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-  <div class="logo">TIME<span>LOG</span></div>
-  <div class="nav-links">
-    <a href="#features">機能</a>
-    <a href="#pricing">料金</a>
-    <a href="#faq">よくある質問</a>
+<!-- ═══════════════════════════════════════════ NAV -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <div class="logo">TIMELOG</div>
+    <div class="nav-links">
+      <a href="#features" class="hide-sm">機能</a>
+      <a href="#demo" class="hide-sm">デモ</a>
+      <a href="#pricing" class="hide-sm">料金</a>
+      <a href="#faq" class="hide-sm">よくある質問</a>
+      <a href="#contact" class="btn-nav" onclick="selectPlan('まず話を聞きたい')">お問い合わせ</a>
+    </div>
   </div>
-  <a href="#contact" class="nav-cta" onclick="selectPlan('まず話を聞きたい')">お問い合わせ</a>
 </nav>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="hero-brand anim-logo">TIME<span>LOG</span></div>
-  <div class="hero-line anim-1"></div>
-  <div class="hero-eyebrow anim-1">複数店舗・複数現場の勤怠管理</div>
-  <h1 class="anim-2">シフトも給与ソフト連携も、<br><strong>もっとシンプルに。</strong></h1>
-  <p class="anim-3">店舗が増えるほど複雑になる勤怠管理を、一つのシステムで整理する。スタッフはスマホで打刻、管理者は画面一つで完結。</p>
-  <div class="hero-actions anim-4">
-    <a href="#contact" class="btn-dark" onclick="selectPlan('まず話を聞きたい')">無料相談を予約する</a>
-    <a href="#features" class="btn-light">機能を見る</a>
+<!-- ═══════════════════════════════════════════ HERO -->
+<section class="hero" style="padding-top:80px;">
+  <div class="hero-bg" id="heroBg"></div>
+
+  <div class="hero-badge">✦ 飲食店・複数店舗向け勤怠管理 SaaS</div>
+
+  <h1>スマートな勤怠管理を、<br>すべてのチームへ。</h1>
+
+  <p>インストール不要。スマホのブラウザだけで、<br>出退勤・申請・月締めまで完結。</p>
+
+  <div class="hero-btns">
+    <a href="#demo" class="btn-primary">デモを見る</a>
+    <a href="#contact" class="btn-outline" onclick="selectPlan('まず話を聞きたい')">お問い合わせ</a>
   </div>
-  <p class="hero-note anim-5">返信1営業日以内 ・ 導入まで2〜3週間</p>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-value">10言語</div>
+      <div class="stat-label">多言語対応</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">¥2,000</div>
+      <div class="stat-label">月額（税込）</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">¥6,600</div>
+      <div class="stat-label">初期費用（税込）</div>
+    </div>
+  </div>
 </section>
 
-<div class="line"></div>
-
-<!-- Problem -->
-<section class="problem">
+<!-- ═══════════════════════════════════════════ PAIN POINTS -->
+<section class="pain-section">
   <div class="container">
-    <div class="eyebrow">Problem</div>
-    <h2 class="section-h">店舗が増えるほど、<br><strong>管理の負担も増えていきます。</strong></h2>
-    <div class="problem-grid">
-      <div class="problem-item">
-        <div class="num">01</div>
+    <div class="section-label reveal">課題</div>
+    <h2 class="section-title reveal">こんな悩み、ありませんか？</h2>
+    <p class="section-sub reveal">店舗が増えるほど、管理の負担も増えていきます。</p>
+
+    <div class="pain-grid">
+      <div class="pain-card reveal reveal-delay-1">
+        <div class="pain-num">01</div>
+        <div class="pain-accent"></div>
         <h3>Excelのシフト表を毎月作り直している</h3>
         <p>希望の収集から割り当て・調整まで、この作業だけで毎月多くの時間が費やされています。</p>
       </div>
-      <div class="problem-item">
-        <div class="num">02</div>
+      <div class="pain-card reveal reveal-delay-2">
+        <div class="pain-num">02</div>
+        <div class="pain-accent"></div>
         <h3>どの店舗に誰が入ったか把握できない</h3>
         <p>月末になって初めて気づく。本部からリアルタイムで見える仕組みがない。</p>
       </div>
-      <div class="problem-item">
-        <div class="num">03</div>
+      <div class="pain-card reveal reveal-delay-3">
+        <div class="pain-num">03</div>
+        <div class="pain-accent"></div>
         <h3>深夜・残業の計算に不安がある</h3>
         <p>割増賃金の計算を手動で行うと、ミスが発生した際にスタッフとの信頼関係にも影響します。</p>
       </div>
-      <div class="problem-item">
-        <div class="num">04</div>
+      <div class="pain-card reveal reveal-delay-4">
+        <div class="pain-num">04</div>
+        <div class="pain-accent"></div>
         <h3>給与ソフトへの転記に時間がかかる</h3>
         <p>勤怠データを手作業で入力する作業は、ミスのリスクも高く、毎月の大きな負担になっています。</p>
       </div>
@@ -229,188 +802,574 @@ footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;just
   </div>
 </section>
 
-<div class="line"></div>
-
-<!-- Features -->
-<section class="features" id="features">
+<!-- ═══════════════════════════════════════════ DEMO -->
+<section class="demo-section" id="demo">
   <div class="container">
-    <div class="eyebrow">Features</div>
-    <h2 class="section-h">必要なものだけ、<br><strong>過不足なく。</strong></h2>
-    <div class="feature-list">
-      <div class="feature-row">
-        <div class="feature-label">シフト管理</div>
-        <div class="feature-body">
-          <h3>希望収集から確定・通知まで自動</h3>
-          <p>スタッフがスマホで希望を提出。管理者がワンクリックで確定すると全員に自動通知。ダブルブッキングも自動で検知します。確定シフトはグリッド形式で印刷可能。</p>
-          <div class="feature-tags">
-            <span class="ftag">希望収集</span>
-            <span class="ftag">自動通知</span>
-            <span class="ftag">ダブルブッキング防止</span>
-            <span class="ftag">シフト表印刷</span>
+    <div class="section-label reveal">インタラクティブデモ</div>
+    <h2 class="section-title reveal">実際の画面を触ってみる</h2>
+    <p class="section-sub reveal">下のタブで画面を切り替えてください</p>
+
+    <div class="demo-wrapper">
+
+      <!-- Phone -->
+      <div class="phone-outer reveal">
+        <div class="phone-notch"></div>
+        <div class="phone-side-btn"></div>
+        <div class="phone-vol-up"></div>
+        <div class="phone-vol-down"></div>
+        <div class="phone-inner">
+
+          <!-- SCREEN 1: Login -->
+          <div class="demo-screen screen-login active" id="screen-0">
+            <div class="app-logo">TIMELOG</div>
+            <div class="app-sub">勤怠管理システム</div>
+            <input class="demo-input" type="text" placeholder="スタッフID（例: 1001）" value="1001" />
+            <input class="demo-input" type="password" placeholder="パスワード" value="••••••" />
+            <button class="demo-btn-login">ログイン</button>
+            <div class="lang-dots">
+              <div class="lang-dot active-dot"></div>
+              <div class="lang-dot"></div>
+              <div class="lang-dot"></div>
+              <div class="lang-dot"></div>
+            </div>
           </div>
+
+          <!-- SCREEN 2: Clock-in -->
+          <div class="demo-screen screen-clock" id="screen-1">
+            <div class="clock-header">
+              <div class="clock-avatar">田</div>
+              <div>
+                <div class="clock-name">田中 太郎</div>
+                <div class="clock-area">📍 大阪エリア</div>
+              </div>
+            </div>
+            <div class="clock-time">09:32</div>
+            <div class="clock-date">2026年5月14日（木）</div>
+            <div style="display:flex;justify-content:center;margin-bottom:12px;">
+              <div class="status-badge idle">
+                <span class="status-dot"></span>未出勤
+              </div>
+            </div>
+            <select class="site-select">
+              <option disabled selected>現場を選択...</option>
+              <option>大阪店 - 梅田</option>
+              <option>大阪店 - 難波</option>
+            </select>
+            <div class="clock-btns">
+              <button class="btn-checkin btn-in">出勤</button>
+              <button class="btn-checkin btn-out">退勤</button>
+            </div>
+            <div class="phone-nav">
+              <div class="phone-nav-item active"><span class="phone-nav-icon">⏱</span>打刻</div>
+              <div class="phone-nav-item"><span class="phone-nav-icon">📋</span>記録</div>
+              <div class="phone-nav-item"><span class="phone-nav-icon">📅</span>シフト</div>
+              <div class="phone-nav-item"><span class="phone-nav-icon">☰</span>メニュー</div>
+            </div>
+          </div>
+
+          <!-- SCREEN 3: History -->
+          <div class="demo-screen screen-history" id="screen-2">
+            <div class="history-header">
+              <h3>MY RECORD</h3>
+              <div class="month-tabs">
+                <button class="month-tab">4月</button>
+                <button class="month-tab active">5月</button>
+              </div>
+            </div>
+            <div class="record-list">
+              <div class="record-item">
+                <div class="record-date">5/13 月</div>
+                <div>
+                  <div class="record-times">出勤 09:00 → 退勤 18:00</div>
+                </div>
+                <div class="record-hours">9.0h</div>
+              </div>
+              <div class="record-item">
+                <div class="record-date">5/12 日</div>
+                <div class="record-holiday">休日</div>
+              </div>
+              <div class="record-item">
+                <div class="record-date">5/11 土</div>
+                <div>
+                  <div class="record-times">出勤 10:00 → 退勤 17:00</div>
+                </div>
+                <div class="record-hours">7.0h</div>
+              </div>
+              <div class="record-item">
+                <div class="record-date">5/10 金</div>
+                <div>
+                  <div class="record-times">出勤 09:00 → 退勤 17:30</div>
+                </div>
+                <div class="record-hours">8.5h</div>
+              </div>
+            </div>
+            <button class="monthly-close-btn">5月の月締め申請</button>
+          </div>
+
+          <!-- SCREEN 4: Admin -->
+          <div class="demo-screen screen-admin" id="screen-3">
+            <div class="admin-header">
+              <div class="admin-title">ADMIN PANEL</div>
+            </div>
+            <div class="admin-tabs">
+              <div class="admin-tab active">申請承認</div>
+              <div class="admin-tab">月締め</div>
+              <div class="admin-tab">レポート</div>
+            </div>
+            <div class="pending-badge">
+              <span>🔔</span> 申請待ち <strong>2件</strong>
+            </div>
+            <div class="approval-item">
+              <div class="approval-name">田中 太郎</div>
+              <div class="approval-req">5/14 打刻漏れ申請</div>
+              <div class="approval-actions">
+                <button class="btn-approve">承認</button>
+                <button class="btn-reject">差し戻し</button>
+              </div>
+            </div>
+            <div class="approval-item">
+              <div class="approval-name">鈴木 一郎</div>
+              <div class="approval-req">5月 月締め申請</div>
+              <div class="approval-actions">
+                <button class="btn-approve">承認</button>
+                <button class="btn-reject">差し戻し</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 5: GPS -->
+          <div class="demo-screen screen-gps" id="screen-4">
+            <div class="gps-punch-header">
+              <div class="gps-avatar">田</div>
+              <div>
+                <div style="font-size:13px;font-weight:800;color:white;">田中 太郎</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.45);">大阪エリア · 1001</div>
+              </div>
+            </div>
+            <div class="gps-map">
+              <div class="gps-pin">📍</div>
+            </div>
+            <div class="gps-coords">34.6937° N, 135.5023° E　大阪府大阪市北区</div>
+            <div class="gps-status-ok">
+              <div class="gps-status-dot"></div>
+              <div style="font-size:11px;font-weight:700;color:#2bac97;">位置情報を取得しました</div>
+            </div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.35);font-weight:600;letter-spacing:1px;padding:2px 0;">📋 最近の打刻記録</div>
+            <div class="gps-log-item">
+              <span class="gps-log-badge badge-in">出勤</span>
+              <span style="color:rgba(255,255,255,0.7);">5/14　09:01</span>
+              <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.3);">梅田店</span>
+              <span style="font-size:10px;color:#2bac97;">🗺</span>
+            </div>
+            <div class="gps-log-item">
+              <span class="gps-log-badge badge-out">退勤</span>
+              <span style="color:rgba(255,255,255,0.7);">5/13　18:02</span>
+              <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.3);">梅田店</span>
+              <span style="font-size:10px;color:#2bac97;">🗺</span>
+            </div>
+            <div class="gps-log-item">
+              <span class="gps-log-badge badge-in">出勤</span>
+              <span style="color:rgba(255,255,255,0.7);">5/13　09:00</span>
+              <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.3);">難波店</span>
+              <span style="font-size:10px;color:#2bac97;">🗺</span>
+            </div>
+          </div>
+
+          <!-- SCREEN 6: Monthly Report -->
+          <div class="demo-screen screen-report" id="screen-5">
+            <div class="report-header">
+              <div class="report-title">MONTHLY REPORT</div>
+              <div class="report-month">2026年 5月　大阪エリア</div>
+            </div>
+            <div class="report-summary">
+              <div class="report-stat">
+                <div class="report-stat-num">22</div>
+                <div class="report-stat-label">出勤日数</div>
+              </div>
+              <div class="report-stat">
+                <div class="report-stat-num">176.5</div>
+                <div class="report-stat-label">総実働(h)</div>
+              </div>
+              <div class="report-stat">
+                <div class="report-stat-num">8.2</div>
+                <div class="report-stat-label">平均(h/日)</div>
+              </div>
+            </div>
+            <div class="report-table">
+              <div class="report-table-head">
+                <div>日</div><div>出勤</div><div>退勤</div><div>実働</div>
+              </div>
+              <div class="report-table-row">
+                <div>5/13</div><div>09:00</div><div>18:00</div><div style="color:#2bac97;font-weight:700;">9.0h</div>
+              </div>
+              <div class="report-table-row">
+                <div>5/12</div><div colspan="3" style="color:rgba(255,255,255,0.3);font-size:10px;">休日</div>
+              </div>
+              <div class="report-table-row">
+                <div>5/11</div><div>10:00</div><div>17:00</div><div style="color:#2bac97;font-weight:700;">7.0h</div>
+              </div>
+              <div class="report-table-row">
+                <div>5/10</div><div>09:00</div><div>17:30</div><div style="color:#2bac97;font-weight:700;">8.5h</div>
+              </div>
+              <div class="report-table-row">
+                <div>5/9</div><div>09:00</div><div>18:00</div><div style="color:#2bac97;font-weight:700;">9.0h</div>
+              </div>
+            </div>
+            <button class="report-pdf-btn">📄 PDFで出力・印刷</button>
+          </div>
+
+          <!-- SCREEN 7: Staff PDF Summary -->
+          <div class="demo-screen screen-pdf" id="screen-6">
+            <div class="pdf-header">
+              <div class="pdf-title">STAFF SUMMARY</div>
+              <div class="pdf-subtitle">スタッフ別 月次集計</div>
+            </div>
+            <div class="pdf-filter">
+              <div class="pdf-filter-chip active">2026年5月</div>
+              <div class="pdf-filter-chip">大阪エリア</div>
+            </div>
+            <div class="pdf-staff-table">
+              <div class="pdf-table-head">
+                <div>氏名</div><div style="text-align:right;">日数</div><div style="text-align:right;">実働(h)</div><div style="text-align:right;">有給</div>
+              </div>
+              <div class="pdf-table-row">
+                <div><div class="pdf-staff-name">田中 太郎</div><div class="pdf-staff-flag">🇯🇵 日本語</div></div>
+                <div class="pdf-num">22日</div><div class="pdf-num">176.5</div><div class="pdf-num">1</div>
+              </div>
+              <div class="pdf-table-row">
+                <div><div class="pdf-staff-name">Nguyen Van A</div><div class="pdf-staff-flag">🇻🇳 ベトナム語</div></div>
+                <div class="pdf-num">20日</div><div class="pdf-num">160.0</div><div class="pdf-num">0</div>
+              </div>
+              <div class="pdf-table-row">
+                <div><div class="pdf-staff-name">李　明</div><div class="pdf-staff-flag">🇨🇳 中国語</div></div>
+                <div class="pdf-num">18日</div><div class="pdf-num">144.5</div><div class="pdf-num">2</div>
+              </div>
+              <div class="pdf-table-row">
+                <div><div class="pdf-staff-name">Kim Minji</div><div class="pdf-staff-flag">🇰🇷 韓国語</div></div>
+                <div class="pdf-num">22日</div><div class="pdf-num">168.0</div><div class="pdf-num">0</div>
+              </div>
+              <div class="pdf-table-row">
+                <div><div class="pdf-staff-name">Reyes Juan</div><div class="pdf-staff-flag">🇵🇭 Filipino</div></div>
+                <div class="pdf-num">15日</div><div class="pdf-num">120.0</div><div class="pdf-num">1</div>
+              </div>
+            </div>
+            <button class="pdf-export-btn">📥 全スタッフ 一括PDF出力</button>
+          </div>
+
+        </div><!-- /phone-inner -->
+      </div><!-- /phone-outer -->
+
+      <!-- Tab buttons -->
+      <div class="demo-tabs reveal">
+        <button class="demo-tab active" onclick="showScreen(0)">ログイン</button>
+        <button class="demo-tab" onclick="showScreen(1)">打刻</button>
+        <button class="demo-tab" onclick="showScreen(2)">履歴</button>
+        <button class="demo-tab" onclick="showScreen(3)">管理者</button>
+        <button class="demo-tab" onclick="showScreen(4)">GPS記録</button>
+        <button class="demo-tab" onclick="showScreen(5)">月次レポート</button>
+        <button class="demo-tab" onclick="showScreen(6)">スタッフ集計</button>
+      </div>
+
+    </div><!-- /demo-wrapper -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ FEATURES -->
+<section class="features-section" id="features">
+  <div class="container">
+    <div class="section-label reveal">機能</div>
+    <h2 class="section-title reveal">必要なものだけ、過不足なく。</h2>
+    <p class="section-sub reveal">シフトから給与ソフト連携まで、現場で本当に必要な機能だけを揃えました。</p>
+
+    <div class="features-grid">
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card-label">シフト管理</div>
+        <h3>希望収集から確定・通知まで自動</h3>
+        <p>スタッフがスマホで希望を提出。管理者がワンクリックで確定すると全員に自動通知。ダブルブッキングも自動で検知します。確定シフトはグリッド形式で印刷可能。</p>
+        <div class="feature-tags">
+          <span class="ftag">希望収集</span>
+          <span class="ftag">自動通知</span>
+          <span class="ftag">ダブルブッキング防止</span>
+          <span class="ftag">シフト表印刷</span>
         </div>
       </div>
-      <div class="feature-row">
-        <div class="feature-label">打刻管理</div>
-        <div class="feature-body">
-          <h3>スマホで出退勤。打ち忘れも申請で解決</h3>
-          <p>スタッフはスマホブラウザから出退勤を記録。打ち忘れた場合は申請→管理者承認で修正できます。現場・休憩時間も同時に記録。</p>
-          <div class="feature-tags">
-            <span class="ftag">スマホ打刻</span>
-            <span class="ftag">打刻申請・承認</span>
-            <span class="ftag">現場選択</span>
-          </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card-label">打刻管理</div>
+        <h3>スマホで出退勤。打ち忘れも申請で解決</h3>
+        <p>スタッフはスマホブラウザから出退勤を記録。打ち忘れた場合は申請→管理者承認で修正できます。現場・休憩時間も同時に記録。</p>
+        <div class="feature-tags">
+          <span class="ftag">スマホ打刻</span>
+          <span class="ftag">打刻申請・承認</span>
+          <span class="ftag">現場選択</span>
         </div>
       </div>
-      <div class="feature-row">
-        <div class="feature-label">労務計算</div>
-        <div class="feature-body">
-          <h3>残業・深夜・休日出勤を自動で仕分け</h3>
-          <p>法定内残業・法定外残業・深夜割増・法定休日・法定外休日を自動計算。丸め単位や所定労働時間は会社ごとに設定できます。</p>
-          <div class="feature-tags">
-            <span class="ftag">残業自動計算</span>
-            <span class="ftag">深夜割増</span>
-            <span class="ftag">休日出勤</span>
-            <span class="ftag">丸め設定</span>
-          </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-card-label">労務計算</div>
+        <h3>残業・深夜・休日出勤を自動で仕分け</h3>
+        <p>法定内残業・法定外残業・深夜割増・法定休日・法定外休日を自動計算。丸め単位や所定労働時間は会社ごとに設定できます。</p>
+        <div class="feature-tags">
+          <span class="ftag">残業自動計算</span>
+          <span class="ftag">深夜割増</span>
+          <span class="ftag">休日出勤</span>
+          <span class="ftag">丸め設定</span>
         </div>
       </div>
-      <div class="feature-row">
-        <div class="feature-label">給与ソフト連携</div>
-        <div class="feature-body">
-          <h3>freee・マネーフォワード・SmartHRに直接流し込む</h3>
-          <p>各社フォーマットに対応したCSVを出力。給与ソフトへの手入力は不要になります。月末の転記作業がゼロになります。</p>
-          <div class="feature-tags">
-            <span class="ftag">freee人事労務</span>
-            <span class="ftag">マネーフォワード</span>
-            <span class="ftag">SmartHR</span>
-            <span class="ftag">CSV出力</span>
-          </div>
+      <div class="feature-card reveal reveal-delay-4">
+        <div class="feature-card-label">給与ソフト連携</div>
+        <h3>freee・マネーフォワード・SmartHRに直接流し込む</h3>
+        <p>各社フォーマットに対応したCSVを出力。給与ソフトへの手入力は不要になります。月末の転記作業がゼロになります。</p>
+        <div class="feature-tags">
+          <span class="ftag">freee人事労務</span>
+          <span class="ftag">マネーフォワード</span>
+          <span class="ftag">SmartHR</span>
+          <span class="ftag">CSV出力</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="line"></div>
-
-<!-- Pricing -->
-<section class="pricing" id="pricing">
+<!-- ═══════════════════════════════════════════ COMPARE TABLE -->
+<section class="compare-section">
   <div class="container">
-    <div class="eyebrow">Pricing</div>
-    <h2 class="section-h">シンプルな<br><strong>料金体系。</strong></h2>
-    <p class="section-p">プランは一つのみ。初期費用と月額だけです。スタッフ数・店舗数が増えても料金は変わりません。</p>
+    <div class="section-label reveal">比較</div>
+    <h2 class="section-title reveal">他のシステムと比較して</h2>
+    <p class="section-sub reveal">スタッフ数・店舗数に関係なく、シンプルな一律料金。</p>
 
-    <div style="margin-top:48px;background:#fff;border:2px solid #c8c8c4;border-radius:16px;overflow:hidden;max-width:640px;">
-      <!-- 料金表示 -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:2px solid #e0e0dc;">
-        <div style="padding:36px 32px;border-right:2px solid #e0e0dc;">
-          <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:14px;">導入サポート費</div>
-          <div style="font-size:38px;font-weight:300;letter-spacing:-.02em;color:#111;line-height:1;">¥30,000</div>
-          <div style="font-size:13px;color:#555;margin-top:6px;">初回のみ・税別</div>
-        </div>
-        <div style="padding:36px 32px;">
-          <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:14px;">月額利用料</div>
-          <div style="font-size:38px;font-weight:300;letter-spacing:-.02em;color:#111;line-height:1;">¥3,500</div>
-          <div style="font-size:13px;color:#555;margin-top:6px;">年間契約（¥42,000）・税別</div>
-        </div>
-      </div>
-      <!-- 含まれるもの -->
-      <div style="padding:28px 32px;">
-        <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:16px;">含まれるもの</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;">
-          <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>店舗設定・スタッフ登録</div>
-          <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>全機能利用可能</div>
-          <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>操作レクチャー付き</div>
-          <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>メール・電話サポート</div>
-          <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>導入後1ヶ月フォロー</div>
-          <div style="font-size:13px;color:#555;display:flex;gap:8px;align-items:flex-start;"><span style="color:#2bac97;flex-shrink:0;">—</span>機能アップデート無償</div>
-        </div>
-        <a href="#contact" onclick="selectPlan('スタンダード（¥30,000 + 月¥3,500）')" style="display:block;text-align:center;margin-top:28px;padding:14px;border-radius:6px;font-size:14px;font-weight:500;text-decoration:none;background:#111;color:#fff;transition:background .2s;" onmouseover="this.style.background='#2bac97'" onmouseout="this.style.background='#111'">相談する</a>
-      </div>
+    <div class="compare-table-wrap reveal">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>システム</th>
+            <th>月額費用</th>
+            <th>多言語対応</th>
+            <th>インストール不要</th>
+            <th>給与ソフト連携</th>
+            <th>スタッフ数制限</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hl">
+            <td>TIMELOG</td>
+            <td>¥2,000〜</td>
+            <td class="check">✓ 10言語</td>
+            <td class="check">✓</td>
+            <td class="check">✓ CSV出力</td>
+            <td class="check">なし</td>
+          </tr>
+          <tr>
+            <td>大手勤怠SaaS A</td>
+            <td>¥数万〜</td>
+            <td class="cross">△ 日英のみ</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+            <td class="cross">人数課金</td>
+          </tr>
+          <tr>
+            <td>タイムカード（紙）</td>
+            <td>印刷代のみ</td>
+            <td class="cross">×</td>
+            <td class="check">✓</td>
+            <td class="cross">×</td>
+            <td class="cross">集計が手作業</td>
+          </tr>
+          <tr>
+            <td>Excelシフト管理</td>
+            <td>無料</td>
+            <td class="cross">×</td>
+            <td class="check">✓</td>
+            <td class="cross">×</td>
+            <td class="cross">管理が煩雑</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="compare-note">※ 各社の料金・機能は2026年5月時点の公開情報をもとにした参考比較です</p>
     </div>
-    <p class="price-note" style="margin-top:16px;max-width:640px;">特殊な要件・大規模店舗はご相談ください</p>
   </div>
 </section>
 
-<div class="line"></div>
-
-<!-- FAQ -->
-<section class="faq" id="faq">
+<!-- ═══════════════════════════════════════════ PRICING -->
+<section class="pricing-section" id="pricing">
   <div class="container">
-    <div class="eyebrow">FAQ</div>
-    <h2 class="section-h">よくある<br><strong>質問。</strong></h2>
+    <div class="section-label reveal">料金</div>
+    <h2 class="section-title reveal">シンプルな料金体系</h2>
+    <p class="section-sub reveal">余計なオプションなし。スタッフ数・店舗数に関係なく一律料金です。</p>
+
+    <div class="pricing-card reveal">
+      <div class="plan-badge">スタンダードプラン</div>
+      <div class="price-main">¥2,000<span class="price-unit">/月</span></div>
+      <div style="font-size:0.82rem;color:rgba(255,255,255,0.45);margin-top:4px;">（税込）</div>
+      <div class="price-initial">初期費用 ¥6,600（税込）</div>
+
+      <ul class="feature-list">
+        <li><span class="check-icon">✓</span>全機能利用可能</li>
+        <li><span class="check-icon">✓</span>スタッフ数・店舗数制限なし</li>
+        <li><span class="check-icon">✓</span>10言語対応</li>
+        <li><span class="check-icon">✓</span>Googleアカウントのみ必要（管理者）</li>
+        <li><span class="check-icon">✓</span>導入後1ヶ月フォロー</li>
+        <li><span class="check-icon">✓</span>いつでも解約可能</li>
+        <li><span class="check-icon">✓</span>機能アップデート無償</li>
+      </ul>
+
+      <a href="#contact" class="pricing-cta" onclick="selectPlan('料金について相談したい')">
+        お問い合わせ・デモ依頼
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ FAQ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="section-label reveal">よくある質問</div>
+    <h2 class="section-title reveal">FAQ</h2>
+
     <div class="faq-list">
-      <div class="faq-item">
-        <div class="faq-q"><span>Googleアカウントがないと使えませんか？</span></div>
-        <div class="faq-a">管理者側はGoogleアカウントが必要です。スタッフ側はスマホブラウザから使えるため、Googleアカウントは不要です。</div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>アプリのインストールは必要ですか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            不要です。スマートフォンのブラウザ（Safari・Chrome等）でURLを開くだけで利用できます。スタッフへのインストール案内も不要なので、導入がスムーズです。
+          </div>
+        </div>
       </div>
-      <div class="faq-item">
-        <div class="faq-q"><span>ITが得意でないスタッフでも使えますか？</span></div>
-        <div class="faq-a">スタッフの操作はスマホで出勤・退勤を押すだけです。導入時に操作説明と印刷用マニュアルをご提供します。</div>
+
+      <div class="faq-item reveal reveal-delay-1">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>Googleアカウントがないと使えませんか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            管理者側はGoogleアカウントが必要です。スタッフ側はスマホブラウザから使えるため、Googleアカウントは不要です。
+          </div>
+        </div>
       </div>
-      <div class="faq-item">
-        <div class="faq-q"><span>導入までどれくらいかかりますか？</span></div>
-        <div class="faq-a">お打ち合わせから設定・テスト運用まで、通常2〜3週間程度です。月初からのスタートを希望される場合は前月中旬までのご連絡をお勧めします。</div>
+
+      <div class="faq-item reveal reveal-delay-2">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>ITが得意でないスタッフでも使えますか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            スタッフの操作はスマホで出勤・退勤を押すだけです。導入時に操作説明と印刷用マニュアルをご提供します。
+          </div>
+        </div>
       </div>
-      <div class="faq-item">
-        <div class="faq-q"><span>解約はいつでもできますか？</span></div>
-        <div class="faq-a">月単位の契約です。解約は翌月15日までにメールでご連絡ください。解約後もデータはGoogleスプレッドシートに残ります。</div>
+
+      <div class="faq-item reveal reveal-delay-3">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>外国人スタッフが多いのですが大丈夫ですか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            はい。日本語・英語・ベトナム語・中国語・韓国語など10言語に対応しています。スタッフが自分の言語を選択できるので、言語の壁なく使えます。
+          </div>
+        </div>
       </div>
-      <div class="faq-item">
-        <div class="faq-q"><span>スタッフが増えたら料金は上がりますか？</span></div>
-        <div class="faq-a">上がりません。スタッフ数・店舗数に関係なく月額¥3,500一律です。</div>
+
+      <div class="faq-item reveal reveal-delay-4">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>導入までどれくらいかかりますか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            お打ち合わせから設定・テスト運用まで、通常2〜3週間程度です。月初からのスタートを希望される場合は前月中旬までのご連絡をお勧めします。
+          </div>
+        </div>
       </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>解約はいつでもできますか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            月単位の契約です。解約は翌月15日までにメールでご連絡ください。解約後もデータはGoogleスプレッドシートに残ります。
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal reveal-delay-1">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>スタッフが増えたら料金は上がりますか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            上がりません。スタッフ数・店舗数に関係なく月額¥2,000（税込）です。
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal reveal-delay-2">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>既存のシステムからの乗り換えはできますか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            はい。Googleスプレッドシートにデータが蓄積されるので、既存の帳票や給与計算ソフトとも柔軟に連携できます。まずはお気軽にお問い合わせください。
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- Contact -->
-<section class="contact" id="contact">
+<!-- ═══════════════════════════════════════════ CONTACT -->
+<section class="contact-section" id="contact">
   <div class="container">
-    <div class="eyebrow">Contact</div>
-    <h2 class="section-h">お気軽に<br><strong>ご相談ください。</strong></h2>
-    <p class="section-p">「自社の業態に合うか分からない」といったご不明点でも、まずはお気軽にお問い合わせください。状況をお伺いしたうえで、最適な方法をご提案いたします。</p>
+    <div class="section-label reveal">お問い合わせ</div>
+    <h2 class="section-title reveal">お気軽にご相談ください。</h2>
+    <p class="section-sub reveal">「自社の業態に合うか分からない」といったご不明点でも、まずはお気軽にお問い合わせください。状況をお伺いしたうえで、最適な方法をご提案いたします。</p>
+
     <div class="contact-wrap">
-      <div class="contact-info">
+      <div class="contact-info-left reveal">
         <p>お問い合わせいただいた内容は1営業日以内にご返信いたします。お気軽にご連絡ください。</p>
         <div class="contact-detail">
           <div class="contact-detail-item">
-            <div class="label">電話</div>
-            
+            <div class="c-label">メール</div>
+            <div class="c-val">clean.nakajima@gmail.com</div>
           </div>
           <div class="contact-detail-item">
-            <div class="label">メール</div>
-            <div class="val">clean.nakajima@gmail.com</div>
-          </div>
-          <div class="contact-detail-item">
-            <div class="label">受付時間</div>
-            <div class="val">平日 10:00 — 18:00</div>
+            <div class="c-label">受付時間</div>
+            <div class="c-val">平日 10:00 — 18:00</div>
           </div>
         </div>
       </div>
-      <div class="contact-form">
+
+      <div class="contact-form reveal reveal-delay-1">
         <div class="form-group">
           <label class="form-label">会社名 *</label>
-          <input id="f_company" class="form-input" type="text" placeholder="株式会社〇〇">
+          <input id="f_company" class="form-input" type="text" placeholder="株式会社〇〇" />
         </div>
         <div class="form-group">
           <label class="form-label">お名前 *</label>
-          <input id="f_name" class="form-input" type="text" placeholder="山田 太郎">
+          <input id="f_name" class="form-input" type="text" placeholder="山田 太郎" />
         </div>
         <div class="form-group">
           <label class="form-label">メールアドレス *</label>
-          <input id="f_email" class="form-input" type="email" placeholder="info@example.com">
+          <input id="f_email" class="form-input" type="email" placeholder="info@example.com" />
         </div>
         <div class="form-group">
           <label class="form-label">電話番号</label>
-          <input id="f_tel" class="form-input" type="tel" placeholder="090-0000-0000">
+          <input id="f_tel" class="form-input" type="tel" placeholder="090-0000-0000" />
         </div>
         <div class="form-group">
           <label class="form-label">ご興味のあるプラン</label>
           <select id="f_plan" class="form-input">
             <option value="">選択してください</option>
-            <option value="スタンダード（¥30,000 + 月¥3,500）">スタンダード（¥30,000 + 月¥3,500）</option>
+            <option value="料金について相談したい">料金について相談したい</option>
             <option value="まず話を聞きたい">まず話を聞きたい</option>
             <option value="カスタマイズ・特殊要件">カスタマイズ・特殊要件</option>
           </select>
@@ -440,7 +1399,7 @@ footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;just
           <label class="form-label">お困りのこと</label>
           <textarea id="f_message" class="form-input" rows="3" placeholder="現在の課題や気になっていることをご記入ください"></textarea>
         </div>
-        <p id="f_error" style="color:#ff6b6b;font-size:13px;margin-bottom:10px;display:none;"></p>
+        <p id="f_error" style="color:#f87171;font-size:0.85rem;margin-bottom:10px;display:none;"></p>
         <button id="f_submit" class="form-submit" onclick="submitForm()">送信する</button>
         <p class="form-note">1営業日以内にご返信いたします。</p>
       </div>
@@ -448,86 +1407,140 @@ footer{background:#0a0a0a;padding:32px 40px;display:flex;align-items:center;just
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════════ FOOTER -->
 <footer>
-  <div class="footer-logo">TIME<span>LOG</span></div>
+  <div class="footer-logo">TIMELOG</div>
   <div class="footer-links">
     <a href="TIMELOG_利用規約・プライバシーポリシー.html">利用規約</a>
     <a href="TIMELOG_利用規約・プライバシーポリシー.html">プライバシーポリシー</a>
   </div>
-  <div style="font-size:12px;color:rgba(255,255,255,.3);">運営：中島 温大　clean.nakajima@gmail.com</div>
+  <div class="footer-operator">運営：中島 温大　clean.nakajima@gmail.com</div>
   <div class="footer-copy">© 2026 TIMELOG</div>
 </footer>
 
+<!-- ═══════════════════════════════════════════ JS -->
 <script>
-var GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycby4KwHfw1QXKrfDILQEzxZ0EJEx-E2r6hfgMFp8Dq16AHIj_EjeN1fm11MYOqf4Mo5WBQ/exec';
+  /* ─── GAS endpoint (preserved exactly from old LP) ─── */
+  var GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycby4KwHfw1QXKrfDILQEzxZ0EJEx-E2r6hfgMFp8Dq16AHIj_EjeN1fm11MYOqf4Mo5WBQ/exec';
 
-function selectPlan(planName) {
-  setTimeout(function() {
-    var sel = document.getElementById('f_plan');
-    if (sel) sel.value = planName;
-    var el = document.getElementById('f_company');
-    if (el) el.focus();
-  }, 400);
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.faq-item').forEach(function(item) {
-    item.addEventListener('click', function() {
-      var isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(function(el){ el.classList.remove('open'); });
-      if (!isOpen) item.classList.add('open');
-    });
-  });
-});
-
-function submitForm() {
-  var company  = document.getElementById('f_company').value.trim();
-  var name     = document.getElementById('f_name').value.trim();
-  var email    = document.getElementById('f_email').value.trim();
-  var tel      = document.getElementById('f_tel').value.trim();
-  var plan     = document.getElementById('f_plan').value;
-  var industry = document.getElementById('f_industry').value;
-  var staffNum = document.getElementById('f_staffNum').value;
-  var message  = document.getElementById('f_message').value.trim();
-  var errEl    = document.getElementById('f_error');
-  var btn      = document.getElementById('f_submit');
-  errEl.style.display = 'none';
-  if (!company) return _err('会社名を入力してください。');
-  if (!name)    return _err('お名前を入力してください。');
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return _err('正しいメールアドレスを入力してください。');
-  btn.disabled = true;
-  btn.textContent = '送信中...';
-  var params = new URLSearchParams({ company, name, email, tel, plan, industry, staffNum, message });
-  fetch(GAS_ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body: params.toString() })
-  .then(function(){ _success(); })
-  .catch(function(){ btn.disabled=false; btn.textContent='送信する'; _err('送信に失敗しました。お電話でご連絡ください。'); });
-}
-function _err(msg){ var e=document.getElementById('f_error'); e.textContent=msg; e.style.display='block'; }
-function _success(){
-  document.querySelector('.contact-form').innerHTML =
-    '<div style="padding:60px 0;text-align:center;">'
-    +'<div style="font-size:40px;margin-bottom:20px;">✓</div>'
-    +'<p style="font-size:18px;font-weight:500;color:#fff;margin-bottom:10px;">送信しました。</p>'
-    +'<p style="font-size:14px;color:rgba(255,255,255,.4);line-height:1.8;">確認メールをお送りしました。<br>1営業日以内にご連絡いたします。</p>'
-    +'</div>';
-}
-window.addEventListener('scroll', function(){
-  var nav = document.querySelector('nav');
-  nav.style.borderBottomColor = window.scrollY > 20 ? 'rgba(0,0,0,0.08)' : 'rgba(0,0,0,0.06)';
-});
-
-// スクロールアニメーション
-var scrollTargets = document.querySelectorAll('.problem-item, .feature-row, .faq-item, .price-wrap > *, .contact-info, .contact-form');
-scrollTargets.forEach(function(el){ el.classList.add('scroll-hidden'); });
-var observer = new IntersectionObserver(function(entries){
-  entries.forEach(function(entry){
-    if(entry.isIntersecting){
-      entry.target.classList.add('scroll-visible');
-      observer.unobserve(entry.target);
+  /* ─── Hero floating dots (from new LP) ─── */
+  (function() {
+    var bg = document.getElementById('heroBg');
+    var count = 18;
+    for (var i = 0; i < count; i++) {
+      var d = document.createElement('div');
+      d.className = 'dot';
+      var size = Math.random() * 200 + 80;
+      var x = Math.random() * 120 - 10;
+      var y = Math.random() * 120 - 10;
+      var dur = Math.random() * 8 + 6;
+      var delay = Math.random() * -10;
+      d.style.cssText = [
+        'width:' + size + 'px',
+        'height:' + size + 'px',
+        'left:' + x + '%',
+        'top:' + y + '%',
+        'animation-duration:' + dur + 's',
+        'animation-delay:' + delay + 's',
+      ].join(';');
+      bg.appendChild(d);
     }
-  });
-}, { threshold: 0.12 });
-scrollTargets.forEach(function(el){ observer.observe(el); });
+  })();
+
+  /* ─── Demo screen switcher (from new LP) ─── */
+  var screens = document.querySelectorAll('.demo-screen');
+  var tabs = document.querySelectorAll('.demo-tab');
+
+  function showScreen(idx) {
+    screens.forEach(function(s, i) {
+      s.classList.toggle('active', i === idx);
+    });
+    tabs.forEach(function(t, i) {
+      t.classList.toggle('active', i === idx);
+    });
+  }
+
+  /* ─── FAQ accordion ─── */
+  function toggleFaq(btn) {
+    var item = btn.closest('.faq-item');
+    var isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(el) {
+      el.classList.remove('open');
+    });
+    if (!isOpen) item.classList.add('open');
+  }
+
+  /* ─── Scroll reveal (from new LP) ─── */
+  var revealEls = document.querySelectorAll('.reveal');
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(function(el) { revealObserver.observe(el); });
+
+  /* ─── Live clock on demo screen 2 ─── */
+  function updateClock() {
+    var el = document.querySelector('.clock-time');
+    if (!el) return;
+    var now = new Date();
+    var h = String(now.getHours()).padStart(2, '0');
+    var m = String(now.getMinutes()).padStart(2, '0');
+    el.textContent = h + ':' + m;
+  }
+  updateClock();
+  setInterval(updateClock, 10000);
+
+  /* ─── selectPlan (preserved exactly from old LP) ─── */
+  function selectPlan(planName) {
+    setTimeout(function() {
+      var sel = document.getElementById('f_plan');
+      if (sel) sel.value = planName;
+      var el = document.getElementById('f_company');
+      if (el) el.focus();
+    }, 400);
+  }
+
+  /* ─── submitForm (preserved exactly from old LP) ─── */
+  function submitForm() {
+    var company  = document.getElementById('f_company').value.trim();
+    var name     = document.getElementById('f_name').value.trim();
+    var email    = document.getElementById('f_email').value.trim();
+    var tel      = document.getElementById('f_tel').value.trim();
+    var plan     = document.getElementById('f_plan').value;
+    var industry = document.getElementById('f_industry').value;
+    var staffNum = document.getElementById('f_staffNum').value;
+    var message  = document.getElementById('f_message').value.trim();
+    var errEl    = document.getElementById('f_error');
+    var btn      = document.getElementById('f_submit');
+    errEl.style.display = 'none';
+    if (!company) return _err('会社名を入力してください。');
+    if (!name)    return _err('お名前を入力してください。');
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return _err('正しいメールアドレスを入力してください。');
+    btn.disabled = true;
+    btn.textContent = '送信中...';
+    var params = new URLSearchParams({ company: company, name: name, email: email, tel: tel, plan: plan, industry: industry, staffNum: staffNum, message: message });
+    fetch(GAS_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: params.toString() })
+    .then(function() { _success(); })
+    .catch(function() { btn.disabled = false; btn.textContent = '送信する'; _err('送信に失敗しました。メールでご連絡ください。'); });
+  }
+  function _err(msg) {
+    var e = document.getElementById('f_error');
+    e.textContent = msg;
+    e.style.display = 'block';
+  }
+  function _success() {
+    document.querySelector('.contact-form').innerHTML =
+      '<div style="padding:60px 0;text-align:center;">'
+      + '<div style="font-size:48px;margin-bottom:20px;color:#2bac97;">✓</div>'
+      + '<p style="font-size:1.1rem;font-weight:700;color:rgba(255,255,255,0.9);margin-bottom:10px;">送信しました。</p>'
+      + '<p style="font-size:0.9rem;color:rgba(255,255,255,0.45);line-height:1.8;">確認メールをお送りしました。<br>1営業日以内にご連絡いたします。</p>'
+      + '</div>';
+  }
 </script>
+
 </body>
 </html>
